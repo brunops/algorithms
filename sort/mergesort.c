@@ -2,18 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct arrays {
+typedef struct array {
   int    *data;
   size_t length;
-} ARRAY;
+} array;
 
-ARRAY merge_sort(ARRAY a);
-ARRAY merge_arrays(ARRAY a1, ARRAY a2);
-void  print_array(ARRAY a);
+array merge_sort(array a);
+array merge_arrays(array a1, array a2);
+void  print_array(array a);
 
 int main() {
   int i;
-  ARRAY a1;
+  array a1;
 
   a1.length = 20;
   a1.data   = malloc(a1.length * sizeof(int));
@@ -35,12 +35,12 @@ int main() {
 }
 
 /**
- * Receive unordered ARRAY and return ordered ARRAY using mergesort algorithm
+ * Receive unordered array and return ordered array using mergesort algorithm
  *
- * return sorted ARRAY
+ * return sorted array
  */
-ARRAY merge_sort(ARRAY a) {
-  ARRAY left, right;
+array merge_sort(array a) {
+  array left, right, merged_array;
 
   if (a.length == 1) {
     return a;
@@ -56,17 +56,22 @@ ARRAY merge_sort(ARRAY a) {
   memcpy(right.data, &a.data[left.length], right.length * sizeof(int));
   right = merge_sort(right);
 
-  return merge_arrays(left, right);  
+  merged_array = merge_arrays(left, right);
+
+  free(left.data);
+  free(right.data);
+
+  return merged_array;
 }
 
 /**
- * Receive two sorted ARRAYs a1 and a2 and merge them together as a sorted ARRAY
- * 
- * return sorted ARRAY
+ * Receive two sorted arrays a1 and a2 and merge them together as a sorted array
+ *
+ * return sorted array
  */
-ARRAY merge_arrays(ARRAY a1, ARRAY a2) {
+array merge_arrays(array a1, array a2) {
   int i, head1 = 0, head2 = 0, merged_head = 0;
-  ARRAY merged_array;
+  array merged_array;
 
   merged_array.length = a1.length + a2.length;
   merged_array.data   = malloc(merged_array.length * sizeof(int));
@@ -83,13 +88,10 @@ ARRAY merge_arrays(ARRAY a1, ARRAY a2) {
     }
   }
 
-  free(a1.data);
-  free(a2.data);
-
   return merged_array;
 }
 
-void print_array(ARRAY a) {
+void print_array(array a) {
   int i;
 
   printf("\nArray data is: ");
