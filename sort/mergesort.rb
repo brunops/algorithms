@@ -1,8 +1,8 @@
 def mergesort(ary)
-  return ary[0] if ary.length == 1
+  return ary if ary.length == 1
 
-  left = [mergesort(ary[0...(ary.length / 2)])].flatten
-  right = [mergesort(ary[(ary.length / 2)..-1])].flatten
+  left = mergesort(ary[0...(ary.length / 2)])
+  right = mergesort(ary[(ary.length / 2)..-1])
 
   merge_arys left, right
 end
