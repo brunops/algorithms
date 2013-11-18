@@ -1,35 +1,62 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct arrays {
   int    *data;
   size_t length;
 } ARRAY;
 
+ARRAY merge_sort(ARRAY a);
 ARRAY merge_arrays(ARRAY a1, ARRAY a2);
 void  print_array(ARRAY a);
 
 int main() {
   int i;
-  ARRAY a1, a2, merged;
+  ARRAY a1;
 
   a1.length = 20;
-  a1.data   = calloc(a1.length, sizeof(int));
+  a1.data   = malloc(a1.length * sizeof(int));
 
-  a2.length = 20;
-  a2.data   = malloc(a2.length * sizeof(int));
-  
   for (i = 0; i < a1.length; i++) {
     a1.data[i] = i;
-    a2.data[i] = i * 2;
   }
 
-  merged = merge_arrays(a1, a2);
+  a1.data[5] = 345;
+  a1.data[2] = 11;
+  a1.data[14] = 20;
+  a1.data[18] = 37;
+  a1.data[7] = 0;
+
   print_array(a1);
-  print_array(a2);
-  print_array(merged);
+  print_array(merge_sort(a1));
 
   return 0;
+}
+
+/**
+ * Receive unordered ARRAY and return ordered ARRAY using mergesort algorithm
+ *
+ * return sorted ARRAY
+ */
+ARRAY merge_sort(ARRAY a) {
+  ARRAY left, right;
+
+  if (a.length == 1) {
+    return a;
+  }
+
+  left.length = a.length / 2;
+  left.data = malloc(left.length * sizeof(int));
+  memcpy(left.data, a.data, left.length * sizeof(int));
+  left = merge_sort(left);
+
+  right.length = a.length - left.length;
+  right.data = malloc(right.length * sizeof(int));
+  memcpy(right.data, &a.data[left.length], right.length * sizeof(int));
+  right = merge_sort(right);
+
+  return merge_arrays(left, right);  
 }
 
 /**
