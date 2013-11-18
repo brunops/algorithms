@@ -83,6 +83,9 @@ ARRAY merge_arrays(ARRAY a1, ARRAY a2) {
     }
   }
 
+  free(a1.data);
+  free(a2.data);
+
   return merged_array;
 }
 
