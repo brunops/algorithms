@@ -1,4 +1,16 @@
 def bubblesort ary
+  begin 
+    swaped = false
+    for i in 0...(ary.length - 1)
+      j = i + 1
+      if ary[i] > ary[j]
+        ary[i], ary[j] = ary[j], ary[i]
+        swaped = true
+      end
+    end
+  end while swaped
+
+  ary
 end
 
 def assert truthiness
