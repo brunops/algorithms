@@ -2,9 +2,7 @@ def bubblesort ary
   ary.each_with_index do |el, i|
     for j in ((i + 1)...(ary.length))
       if ary[i] > ary[j]
-        temp = ary[j]
-        ary[j] = ary[i]
-        ary[i] = temp
+        ary[i], ary[j] = ary[j], ary[i]
       end
     end
   end
