@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+#define TRUE  1
+#define FALSE 0
+
 void print_array(int *p, size_t size);
 void bubblesort(int *p, size_t size);
 
@@ -22,6 +25,19 @@ void print_array(int *p, size_t size) {
 }
 
 void bubblesort(int *p, size_t size) {
-  
+  int i, j, temp, swaped;
+  do {
+    swaped = FALSE;
+
+    for (i = 0; i < size - 1; i++) {
+      j = i + 1;
+      if (p[i] > p[j]) {
+        temp = p[i];
+        p[i] = p[j];
+        p[j] = temp;
+        swaped = TRUE;
+      }
+    }
+  } while (swaped);
 }
 
