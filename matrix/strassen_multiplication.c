@@ -5,10 +5,44 @@
 #define BITS_IN_A_BYTE 8
 
 void assert_equals(int a, int b);
+
 void print_bits(int n);
+void print_matrix(int **p, int size);
+void allocate_matrix(int ***p, int size);
+
 int next_power_of_2(int number);
 
-int main() {
+void print_matrix(int **p, int size) {
+  int i, j;
+  for (i = 0; i < size; i++) {
+    for (j = 0; j < size; j++) {
+      printf("%d ", p[i][j]);
+    }
+    printf("\n");
+  }
+}
+
+/**
+ * Allocate memory on the heap for square matrix of size size for pointer to pointer to pointer
+ */
+void allocate_matrix(int ***p, int size) {
+  int i;
+
+  *p = calloc(size, sizeof(int *));
+  for (i = 0; i < size; i++) {
+    (*p)[i] = calloc(size, sizeof(int));
+  }
+}
+
+int main(int argc, char *argv[]) {
+  int i, **matrix;
+  int size = next_power_of_2(5);
+  allocate_matrix(&matrix, size);
+
+
+  print_matrix(matrix, size);
+
+
   assert_equals(4, next_power_of_2(3));
   assert_equals(4, next_power_of_2(4));
   assert_equals(8, next_power_of_2(5));
