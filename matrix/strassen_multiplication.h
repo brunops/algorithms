@@ -15,3 +15,5 @@ int next_power_of_2(int number);
 
 // matrix calculations
 void sum(int **m1, int **m2, int **result, int size);
+void subtract(int **m1, int **m2, int **result, int size);
+void multiply(int **m1, int **m2, int **result, int size);

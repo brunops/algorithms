@@ -1,13 +1,36 @@
 #include "strassen_multiplication.h"
 
 int main(int argc, char *argv[]) {
-  int i, **matrix;
-  int size = next_power_of_2(5);
+  int i, j, k, **matrix, size = 3;
+  int **m1, **m2, **result, **expected_sum, **expected_subtraction, **expected_multiplication;
+
+  allocate_matrix(&m1, size);
+  allocate_matrix(&m2, size);
+  allocate_matrix(&expected_sum, size);
+  allocate_matrix(&expected_subtraction, size);
+  allocate_matrix(&expected_multiplication, size);
+  for (i = 0; i < size; i++) {
+    for (j = 0; j < size; j++) {
+      m1[i][j] = j;
+      m2[i][j] = j;
+      expected_sum[i][j] = 2 * j;
+      expected_subtraction[i][j] = 0;
+      for (k = 0; k < size; k++) {
+        expected_multiplication[i][j] += m1[i][k] * m2[k][j];
+      }
+    }
+  }
+
+  allocate_matrix(&result, size);
+  sum(m1, m2, result, size);
+  assert_matrix_equals(result, expected_sum, size);
+
+  subtract(m1, m2, result, size);
+  assert_matrix_equals(result, expected_subtraction, size);
+
+  size = next_power_of_2(5);
   allocate_matrix(&matrix, size);
-
-
   print_matrix(matrix, size);
-
 
   assert_equals(4, next_power_of_2(3));
   assert_equals(4, next_power_of_2(4));
@@ -112,3 +135,34 @@ void allocate_matrix(int ***p, int size) {
     (*p)[i] = calloc(size, sizeof(int));
   }
 }
+
+void sum(int **m1, int **m2, int **result, int size) {
+  int i, j;
+  for (i = 0; i < size; i++) {
+    for (j = 0; j < size; j++) {
+      result[i][j] = m1[i][j] + m2[i][j];
+    }
+  }
+}
+
+void subtract(int **m1, int **m2, int **result, int size) {
+  int i, j;
+  for (i = 0; i < size; i++) {
+    for (j = 0; j < size; j++) {
+      result[i][j] = m1[i][j] - m2[i][j];
+    }
+  }
+}
+
+void multiply(int **m1, int **m2, int **result, int size) {
+  int i, j, k;
+  for (i = 0; i < size; i++) {
+    for (j = 0; j < size; j++) {
+      for (k = 0; k < size; k++) {
+        result[i][j] += m1[i][k] + m2[k][j];
+      }
+    }
+  }
+}
+
+
