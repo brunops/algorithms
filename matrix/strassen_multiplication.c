@@ -12,28 +12,6 @@ void allocate_matrix(int ***p, int size);
 
 int next_power_of_2(int number);
 
-void print_matrix(int **p, int size) {
-  int i, j;
-  for (i = 0; i < size; i++) {
-    for (j = 0; j < size; j++) {
-      printf("%d ", p[i][j]);
-    }
-    printf("\n");
-  }
-}
-
-/**
- * Allocate memory on the heap for square matrix of size size for pointer to pointer to pointer
- */
-void allocate_matrix(int ***p, int size) {
-  int i;
-
-  *p = calloc(size, sizeof(int *));
-  for (i = 0; i < size; i++) {
-    (*p)[i] = calloc(size, sizeof(int));
-  }
-}
-
 int main(int argc, char *argv[]) {
   int i, **matrix;
   int size = next_power_of_2(5);
@@ -108,5 +86,27 @@ void assert_equals(int a, int b) {
     printf("FAIL!");
     printf("\nvalues %d and %d are not equal", a, b);
     exit(1);
+  }
+}
+
+void print_matrix(int **p, int size) {
+  int i, j;
+  for (i = 0; i < size; i++) {
+    for (j = 0; j < size; j++) {
+      printf("%d ", p[i][j]);
+    }
+    printf("\n");
+  }
+}
+
+/**
+ * Allocate memory on the heap for square matrix of size size for pointer to pointer to pointer
+ */
+void allocate_matrix(int ***p, int size) {
+  int i;
+
+  *p = calloc(size, sizeof(int *));
+  for (i = 0; i < size; i++) {
+    (*p)[i] = calloc(size, sizeof(int));
   }
 }
