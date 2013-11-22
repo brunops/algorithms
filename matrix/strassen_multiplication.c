@@ -14,6 +14,7 @@ int main(int argc, char *argv[]) {
   assert_equals(8, next_power_of_2(5));
   assert_equals(8, next_power_of_2(7));
 
+
   printf("yeah!");
 
   return 0;
@@ -74,6 +75,19 @@ void assert_equals(int a, int b) {
     printf("FAIL!");
     printf("\nvalues %d and %d are not equal", a, b);
     exit(1);
+  }
+}
+
+void assert_matrix_equals(int **m1, int **m2, int size) {
+  int i, j;
+  for (i = 0; i < size; ++i) {
+    for (j = 0; j < size; ++j) {
+      if (m1[i][j] != m2[i][j]) {
+        printf("FAIL!");
+        printf("\nvalues on position [%d][%d]: are different! m1 => %d, m2 => %d", i, j, m1[i][j], m2[i][j]);
+        exit(1);
+      }
+    }
   }
 }
 
