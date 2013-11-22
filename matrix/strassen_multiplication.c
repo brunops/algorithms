@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BIT_SIZE 8
+#define BITS_IN_A_BYTE 8
 
 void assert_equals(int a, int b);
 void print_bits(int n);
@@ -20,7 +20,7 @@ int main() {
 }
 
 int next_power_of_2(int number) {
-  int total_bits = BIT_SIZE * sizeof(int);
+  int total_bits = BITS_IN_A_BYTE * sizeof(int);
   short bits[total_bits];
   int i, ones = 0, result, highest_order_bit = 0, n = number;
 
@@ -55,7 +55,7 @@ int next_power_of_2(int number) {
 }
 
 void print_bits(int n) {
-  int i, total_bits = BIT_SIZE * sizeof(int);
+  int i, total_bits = BITS_IN_A_BYTE * sizeof(int);
   short bits[total_bits];
 
   printf("\nBits of %d are\n", n);
