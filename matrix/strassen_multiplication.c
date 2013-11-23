@@ -1,7 +1,7 @@
 #include "strassen_multiplication.h"
 
 int main(int argc, char *argv[]) {
-  int i, j, k, size = 4;
+  int i, j, k, size = 8;
   int **m1, **m2, **result, **strassen_result, **expected_sum, **expected_subtraction, **expected_multiplication;
 
   m1 = allocate_matrix(size);
@@ -44,26 +44,47 @@ int main(int argc, char *argv[]) {
 }
 
 void strassen(int **m1, int **m2, int **result, int size) {
+  int i, j;
+  int **m1_copy, **m2_copy, **result_copy;
   printf("STRASSEN!\n");
   printf("\n\nmatrix 1\n");
   print_matrix(m1, size);
   printf("\n\nmatrix 2\n");
-  print_matrix(m1, size);
+  print_matrix(m2, size);
 
   // Actual matrix size needed for the recursive calls
   int new_size = next_power_of_2(size);
   if (new_size != size) {
-    resize_matrix(&m1, size, new_size);
-    resize_matrix(&m2, size, new_size);
-    resize_matrix(&result, size, new_size);
-    printf("\n\nresized matrix\n");
-    print_matrix(m1, new_size);
+
+    m1_copy = allocate_matrix(new_size);
+    m2_copy = allocate_matrix(new_size);
+    result_copy = allocate_matrix(new_size);
+    for (i = 0; i < size; i++) {
+      for (j = 0; j < size; j++) {
+        m1_copy[i][j] = m1[i][j];
+        m2_copy[i][j] = m2[i][j];
+      }
+    }
+
+    strassen_recursive(m1_copy, m2_copy, result_copy, new_size);
+
+    for (i = 0; i < size; i++) {
+      for (j = 0; j < size; j++) {
+        result[i][j] = result_copy[i][j];
+      }
+    }
+
+    free(m1_copy);
+    free(m2_copy);
+    free(result_copy);
+  }
+  else {
+    strassen_recursive(m1, m2, result, new_size);
   }
 
-  strassen_recursive(m1, m2, result, new_size);
 
   printf("\n\nresulting matrix\n");
-  print_matrix(result, new_size);
+  print_matrix(result, size);
 }
 
 /**
@@ -221,18 +242,6 @@ void strassen_recursive(int **m1, int **m2, int **result, int size) {
   }
 }
 
-void resize_matrix(int ***matrix, int current_size, int desired_size) {
-  int i, j, **temp;
-  temp = allocate_matrix(desired_size);
-  for (i = 0; i < current_size; i++) {
-    for (j = 0; j < current_size; j++) {
-      temp[i][j] = (*matrix)[i][j];
-    }
-  }
-  free(*matrix);
-  *matrix = temp;
-}
-
 int next_power_of_2(int number) {
   int total_bits = BITS_IN_A_BYTE * sizeof(int);
   short bits[total_bits];
@@ -366,5 +375,3 @@ void multiply(int **m1, int **m2, int **result, int size) {
     }
   }
 }
-
-
