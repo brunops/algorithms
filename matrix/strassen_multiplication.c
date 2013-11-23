@@ -24,6 +24,8 @@ int main(int argc, char *argv[]) {
   multiply(m1, m2, result, size);
   assert_matrix_equals(result, expected_multiplication, size);
 
+  strassen(m1, m2, result, size);
+
   sum(m1, m2, result, size);
   assert_matrix_equals(result, expected_sum, size);
 
@@ -42,6 +44,33 @@ int main(int argc, char *argv[]) {
   printf("yeah!");
 
   return 0;
+}
+
+void strassen(int **m1, int **m2, int **result, int size) {
+  printf("STRASSEN!\n");
+  print_matrix(m1, size);
+
+  // Actual matrix size needed for the recursive calls
+  int new_size = next_power_of_2(size);
+  if (new_size != size) {
+    resize_matrix(&m1, size, new_size);
+    resize_matrix(&m2, size, new_size);
+    print_matrix(m1, new_size);
+  }
+
+
+}
+
+void resize_matrix(int ***matrix, int current_size, int desired_size) {
+  int i, j, **temp;
+  allocate_matrix(&temp, desired_size);
+  for (i = 0; i < current_size; i++) {
+    for (j = 0; j < current_size; j++) {
+      temp[i][j] = (*matrix)[i][j];
+    }
+  }
+  free(*matrix);
+  *matrix = temp;
 }
 
 int next_power_of_2(int number) {

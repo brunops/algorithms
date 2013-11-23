@@ -4,6 +4,10 @@
 
 #define BITS_IN_A_BYTE 8
 
+// Strassen's algorithm
+void strassen(int **m1, int **m2, int **result, int size);
+void resize_matrix(int ***matrix, int current_size, int desired_size);
+
 // Test functions
 void assert_equals(int a, int b);
 void assert_matrix_equals(int **m1, int **m2, int size);
