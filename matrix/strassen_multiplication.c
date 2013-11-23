@@ -1,8 +1,8 @@
 #include "strassen_multiplication.h"
 
 int main(int argc, char *argv[]) {
-  int i, j, k, size = 3;
-  int **m1, **m2, **result, **expected_sum, **expected_subtraction, **expected_multiplication;
+  int i, j, k, size = 8;
+  int **m1, **m2, **result, **strassen_result, **expected_sum, **expected_subtraction, **expected_multiplication;
 
   allocate_matrix(&m1, size);
   allocate_matrix(&m2, size);
@@ -15,7 +15,6 @@ int main(int argc, char *argv[]) {
       m2[i][j] = j;
       expected_sum[i][j] = 2 * j;
       expected_subtraction[i][j] = 0;
-      expected_multiplication[i][j] = (j + 1) * size;
     }
   }
 
@@ -26,12 +25,10 @@ int main(int argc, char *argv[]) {
   subtract(m1, m2, result, size);
   assert_matrix_equals(result, expected_subtraction, size);
 
-  deallocate_matrix(result, size);
-  allocate_matrix(&result, size);
+  allocate_matrix(&strassen_result, size);
   multiply(m1, m2, result, size);
-  assert_matrix_equals(result, expected_multiplication, size);
-
-  strassen(m1, m2, result, size);
+  strassen(m1, m2, strassen_result, size);
+  assert_matrix_equals(result, strassen_result, size);
 
   size = next_power_of_2(5);
 
