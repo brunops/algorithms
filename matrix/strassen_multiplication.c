@@ -1,14 +1,14 @@
 #include "strassen_multiplication.h"
 
 int main(int argc, char *argv[]) {
-  int i, j, k, size = 8;
+  int i, j, k, size = 4;
   int **m1, **m2, **result, **strassen_result, **expected_sum, **expected_subtraction, **expected_multiplication;
 
-  allocate_matrix(&m1, size);
-  allocate_matrix(&m2, size);
-  allocate_matrix(&expected_sum, size);
-  allocate_matrix(&expected_subtraction, size);
-  allocate_matrix(&expected_multiplication, size);
+  m1 = allocate_matrix(size);
+  m2 = allocate_matrix(size);
+  expected_sum = allocate_matrix(size);
+  expected_subtraction = allocate_matrix(size);
+  expected_multiplication = allocate_matrix(size);
   for (i = 0; i < size; i++) {
     for (j = 0; j < size; j++) {
       m1[i][j] = j;
@@ -18,14 +18,14 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  allocate_matrix(&result, size);
+  result = allocate_matrix(size);
   sum(m1, m2, result, size);
   assert_matrix_equals(result, expected_sum, size);
 
   subtract(m1, m2, result, size);
   assert_matrix_equals(result, expected_subtraction, size);
 
-  allocate_matrix(&strassen_result, size);
+  strassen_result = allocate_matrix(size);
   multiply(m1, m2, result, size);
   strassen(m1, m2, strassen_result, size);
   assert_matrix_equals(result, strassen_result, size);
@@ -98,15 +98,15 @@ void strassen_recursive(int **m1, int **m2, int **result, int size) {
 
     // Allocate memory for all 8 sub matrices
     // m1
-    allocate_matrix(&A, new_size);
-    allocate_matrix(&B, new_size);
-    allocate_matrix(&C, new_size);
-    allocate_matrix(&D, new_size);
+    A = allocate_matrix(new_size);
+    B = allocate_matrix(new_size);
+    C = allocate_matrix(new_size);
+    D = allocate_matrix(new_size);
     // m2
-    allocate_matrix(&E, new_size);
-    allocate_matrix(&F, new_size);
-    allocate_matrix(&G, new_size);
-    allocate_matrix(&H, new_size);
+    E = allocate_matrix(new_size);
+    F = allocate_matrix(new_size);
+    G = allocate_matrix(new_size);
+    H = allocate_matrix(new_size);
 
     for (i = 0; i < new_size; i++) {
       for (j = 0; j < new_size; ++j) {
@@ -123,23 +123,23 @@ void strassen_recursive(int **m1, int **m2, int **result, int size) {
     }
 
     // Allocate memory for products (P's in Strassen's algorithm)
-    allocate_matrix(&P1, new_size);
-    allocate_matrix(&P2, new_size);
-    allocate_matrix(&P3, new_size);
-    allocate_matrix(&P4, new_size);
-    allocate_matrix(&P5, new_size);
-    allocate_matrix(&P6, new_size);
-    allocate_matrix(&P7, new_size);
+    P1 = allocate_matrix(new_size);
+    P2 = allocate_matrix(new_size);
+    P3 = allocate_matrix(new_size);
+    P4 = allocate_matrix(new_size);
+    P5 = allocate_matrix(new_size);
+    P6 = allocate_matrix(new_size);
+    P7 = allocate_matrix(new_size);
 
     // Allocate memory for left and right temp results
-    allocate_matrix(&left, new_size);
-    allocate_matrix(&right, new_size);
+    left = allocate_matrix(new_size);
+    right = allocate_matrix(new_size);
 
     // Allocate memory for results
-    allocate_matrix(&R1, new_size);
-    allocate_matrix(&R2, new_size);
-    allocate_matrix(&R3, new_size);
-    allocate_matrix(&R4, new_size);
+    R1 = allocate_matrix(new_size);
+    R2 = allocate_matrix(new_size);
+    R3 = allocate_matrix(new_size);
+    R4 = allocate_matrix(new_size);
 
     // Calculate products
     // P1 = A (F - H)
@@ -223,7 +223,7 @@ void strassen_recursive(int **m1, int **m2, int **result, int size) {
 
 void resize_matrix(int ***matrix, int current_size, int desired_size) {
   int i, j, **temp;
-  allocate_matrix(&temp, desired_size);
+  temp = allocate_matrix(desired_size);
   for (i = 0; i < current_size; i++) {
     for (j = 0; j < current_size; j++) {
       temp[i][j] = (*matrix)[i][j];
@@ -318,13 +318,15 @@ void print_matrix(int **p, int size) {
 /**
  * Allocate memory on the heap for square matrix of size size for pointer to pointer to pointer
  */
-void allocate_matrix(int ***p, int size) {
-  int i;
+int **allocate_matrix(int size) {
+  int i, **p;
 
-  *p = calloc(size, sizeof(int *));
+  p = calloc(size, sizeof(int *));
   for (i = 0; i < size; i++) {
-    (*p)[i] = calloc(size, sizeof(int));
+    p[i] = calloc(size, sizeof(int));
   }
+
+  return p;
 }
 
 void deallocate_matrix(int **p, int size) {

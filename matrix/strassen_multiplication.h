@@ -20,7 +20,7 @@ void print_matrix(int **p, int size);
 
 // Utility functions
 int next_power_of_2(int number);
-void allocate_matrix(int ***p, int size);
+int **allocate_matrix(int size);
 void deallocate_matrix(int **p, int size);
 
 // Matrix calculations
