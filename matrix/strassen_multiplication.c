@@ -360,8 +360,9 @@ void multiply(int **m1, int **m2, int **result, int size) {
   int i, j, k;
   for (i = 0; i < size; i++) {
     for (j = 0; j < size; j++) {
+      result[i][j] += 0;
       for (k = 0; k < size; k++) {
-        result[i][j] += m1[i][k] + m2[k][j];
+        result[i][j] += m1[i][k] * m2[k][j];
       }
     }
   }
