@@ -1,7 +1,7 @@
 #include "strassen_multiplication.h"
 
 int main(int argc, char *argv[]) {
-  int i, j, k, **matrix, size = 3;
+  int i, j, k, size = 3;
   int **m1, **m2, **result, **expected_sum, **expected_subtraction, **expected_multiplication;
 
   allocate_matrix(&m1, size);
@@ -19,21 +19,21 @@ int main(int argc, char *argv[]) {
     }
   }
 
-
   allocate_matrix(&result, size);
-  multiply(m1, m2, result, size);
-  assert_matrix_equals(result, expected_multiplication, size);
-
-  strassen(m1, m2, result, size);
-
   sum(m1, m2, result, size);
   assert_matrix_equals(result, expected_sum, size);
 
   subtract(m1, m2, result, size);
   assert_matrix_equals(result, expected_subtraction, size);
 
+  deallocate_matrix(result, size);
+  allocate_matrix(&result, size);
+  multiply(m1, m2, result, size);
+  assert_matrix_equals(result, expected_multiplication, size);
+
+  strassen(m1, m2, result, size);
+
   size = next_power_of_2(5);
-  allocate_matrix(&matrix, size);
 
   assert_equals(4, next_power_of_2(3));
   assert_equals(4, next_power_of_2(4));
@@ -55,10 +55,59 @@ void strassen(int **m1, int **m2, int **result, int size) {
   if (new_size != size) {
     resize_matrix(&m1, size, new_size);
     resize_matrix(&m2, size, new_size);
+    resize_matrix(&result, size, new_size);
     print_matrix(m1, new_size);
   }
 
+  strassen_recursive(m1, m2, result, new_size);
 
+  print_matrix(result, new_size);
+}
+
+void strassen_recursive(int **m1, int **m2, int **result, int size) {
+  int i, j, new_size;
+  int **m1a, **m1b, **m1c, **m1d;
+  int **m2a, **m2b, **m2c, **m2d;
+
+  // base case
+  if (size == 1) {
+    multiply(m1, m2, result, size);
+    return;
+  }
+  else {
+    new_size = size / 2;
+    allocate_matrix(&m1a, new_size);
+    allocate_matrix(&m1b, new_size);
+    allocate_matrix(&m1c, new_size);
+    allocate_matrix(&m1d, new_size);
+    allocate_matrix(&m2a, new_size);
+    allocate_matrix(&m2b, new_size);
+    allocate_matrix(&m2c, new_size);
+    allocate_matrix(&m2d, new_size);
+
+    for (i = 0; i < new_size; i++) {
+      for (j = 0; j < new_size; ++j) {
+        m1a[i][j] = m1[i][j];
+        m1b[i][j] = m1[i][j + new_size];
+        m1c[i][j] = m1[i + new_size][j];
+        m1d[i][j] = m1[i + new_size][j + new_size];
+
+        m2a[i][j] = m2[i][j];
+        m2b[i][j] = m2[i][j + new_size];
+        m2c[i][j] = m2[i + new_size][j];
+        m2d[i][j] = m2[i + new_size][j + new_size];
+      }
+    }
+
+    printf("M1 A");
+    print_matrix(m1a, new_size);
+    printf("M1 B");
+    print_matrix(m1b, new_size);
+    printf("M1 C");
+    print_matrix(m1c, new_size);
+    printf("M1 D");
+    print_matrix(m1d, new_size);
+  }
 }
 
 void resize_matrix(int ***matrix, int current_size, int desired_size) {
