@@ -15,13 +15,15 @@ int main(int argc, char *argv[]) {
       m2[i][j] = j;
       expected_sum[i][j] = 2 * j;
       expected_subtraction[i][j] = 0;
-      for (k = 0; k < size; k++) {
-        expected_multiplication[i][j] += m1[i][k] * m2[k][j];
-      }
+      expected_multiplication[i][j] = (j + 1) * size;
     }
   }
 
+
   allocate_matrix(&result, size);
+  multiply(m1, m2, result, size);
+  assert_matrix_equals(result, expected_multiplication, size);
+
   sum(m1, m2, result, size);
   assert_matrix_equals(result, expected_sum, size);
 
@@ -30,7 +32,6 @@ int main(int argc, char *argv[]) {
 
   size = next_power_of_2(5);
   allocate_matrix(&matrix, size);
-  print_matrix(matrix, size);
 
   assert_equals(4, next_power_of_2(3));
   assert_equals(4, next_power_of_2(4));
@@ -116,6 +117,7 @@ void assert_matrix_equals(int **m1, int **m2, int size) {
 
 void print_matrix(int **p, int size) {
   int i, j;
+  printf("\n");
   for (i = 0; i < size; i++) {
     for (j = 0; j < size; j++) {
       printf("%d ", p[i][j]);
