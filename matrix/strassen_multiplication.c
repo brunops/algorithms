@@ -136,6 +136,14 @@ void allocate_matrix(int ***p, int size) {
   }
 }
 
+void deallocate_matrix(int **p, int size) {
+  int i;
+  for (i = 0; i < size; ++i) {
+    free(p[i]); // deallocate row
+  }
+  free(p); // deallocate pointers to rows
+}
+
 void sum(int **m1, int **m2, int **result, int size) {
   int i, j;
   for (i = 0; i < size; i++) {
