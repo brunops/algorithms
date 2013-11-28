@@ -8,7 +8,7 @@ typedef struct array {
 
 void assert_array_sorted(array ary);
 void print_array(array ary);
-void quicksort(array ary);
+void quicksort(array ary, size_t low, size_t high);
 
 int main() {
   int i;
@@ -21,13 +21,13 @@ int main() {
     a1.data[i] = a1.size - i;
   }
 
-  quicksort(a1);
+  quicksort(a1, 0, a1.size - 1);
   assert_array_sorted(a1);
 
   return 0;
 }
 
-void quicksort(array ary) {
+void quicksort(array ary, size_t low, size_t high) {
 
 }
 
