@@ -6,6 +6,7 @@ typedef struct array {
   size_t size;
 } array;
 
+void swap(array ary, int i, int j);
 void assert_array_sorted(array ary);
 void print_array(array ary);
 void quicksort(array ary, int low, int high);
@@ -47,9 +48,7 @@ void quicksort(array ary, int low, int high) {
   pivot = ary.data[pivot_index];
 
   // Take pivot out of the way
-  temp = ary.data[low];
-  ary.data[low] = ary.data[pivot_index];
-  ary.data[pivot_index] = temp;
+  swap(ary, pivot_index, low);
 
   // Initialize control indices for partition
   i = low + 1;
@@ -59,9 +58,7 @@ void quicksort(array ary, int low, int high) {
   while (j <= high) {
     if (ary.data[j] < pivot) {
       // Swap
-      temp = ary.data[i];
-      ary.data[i] = ary.data[j];
-      ary.data[j] = temp;
+      swap(ary, i, j);
       i++;
     }
 
@@ -70,15 +67,21 @@ void quicksort(array ary, int low, int high) {
 
   // Put pivot back in its correct place
   pivot_index = i - 1;
-  temp = ary.data[low];
-  ary.data[low] = ary.data[pivot_index];
-  ary.data[pivot_index] = temp;
+  swap(ary, pivot_index, low);
 
   // Recurse into partitions
   // left
   quicksort(ary, low, pivot_index - 1);
   // right
   quicksort(ary, pivot_index + 1, high);
+}
+
+void swap(array ary, int i, int j) {
+  int temp;
+
+  temp = ary.data[i];
+  ary.data[i] = ary.data[j];
+  ary.data[j] = temp;
 }
 
 void assert_array_sorted(array ary) {
