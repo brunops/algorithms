@@ -28,7 +28,24 @@ int main() {
 }
 
 void quicksort(array ary, size_t low, size_t high) {
+  int i, j, pivot_index, temp;
 
+  print_array(ary);
+
+  // Base case
+  if (low > high) {
+    return;
+  }
+
+  // Define median element as pivot
+  pivot_index = low + high / 2;
+
+  // Take pivot out of the way
+  temp = ary.data[low];
+  ary.data[low] = ary.data[pivot_index];
+  ary.data[pivot_index] = temp;
+
+  print_array(ary);
 }
 
 void assert_array_sorted(array ary) {
