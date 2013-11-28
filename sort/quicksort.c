@@ -36,7 +36,7 @@ int main() {
 }
 
 void quicksort(array ary, int low, int high) {
-  int i, j, pivot, pivot_index, temp;
+  int i, j, pivot, pivot_index;
 
   // Base case
   if (low >= high) {
