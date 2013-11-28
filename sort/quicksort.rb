@@ -1,4 +1,4 @@
-def quicksort(ary, low, high)
+def quicksort(ary, low = 0, high = ary.length - 1)
   p "--------------------------- starting with: "
   p "low: #{low}"
   p "high: #{high}"
@@ -57,23 +57,19 @@ end
 
 if $0 == __FILE__
   ary = []
-  quicksort(ary, 0, 0)
+  quicksort(ary)
   assert(ary == [])
 
   ary = [1]
-  quicksort(ary, 0, 0)
+  quicksort(ary)
   assert(ary == [1])
 
 
   ary = [1, 3, 4, 5, 7, 0]
-  quicksort(ary, 0, ary.length - 1)
+  quicksort(ary)
   assert(ary == [0, 1, 3, 4, 5, 7])
 
   ary = [1, -3, 4, 5, 7, 0, 12, 444, 1900]
-  quicksort(ary, 0, ary.length - 1)
+  quicksort(ary)
   assert(ary == [-3, 0, 1, 4, 5, 7, 12, 444, 1900])
-
-
-
-
 end
