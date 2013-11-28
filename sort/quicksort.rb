@@ -56,7 +56,24 @@ def assert(obj)
 end
 
 if $0 == __FILE__
+  ary = []
+  quicksort(ary, 0, 0)
+  assert(ary == [])
+
+  ary = [1]
+  quicksort(ary, 0, 0)
+  assert(ary == [1])
+
+
   ary = [1, 3, 4, 5, 7, 0]
-  quicksort(ary, 0, 5)
+  quicksort(ary, 0, ary.length - 1)
   assert(ary == [0, 1, 3, 4, 5, 7])
+
+  ary = [1, -3, 4, 5, 7, 0, 12, 444, 1900]
+  quicksort(ary, 0, ary.length - 1)
+  assert(ary == [-3, 0, 1, 4, 5, 7, 12, 444, 1900])
+
+
+
+
 end
