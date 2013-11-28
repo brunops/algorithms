@@ -8,7 +8,7 @@ typedef struct array {
 
 void assert_array_sorted(array ary);
 void print_array(array ary);
-void quicksort(array ary, size_t low, size_t high);
+void quicksort(array ary, int low, int high);
 
 int main() {
   int i;
@@ -24,21 +24,26 @@ int main() {
   quicksort(a1, 0, a1.size - 1);
   assert_array_sorted(a1);
 
+  a1.data[2] = 7;
+  a1.data[0] = 70;
+  quicksort(a1, 0, a1.size - 1);
+  assert_array_sorted(a1);
+
+  free(a1.data);
+
   return 0;
 }
 
-void quicksort(array ary, size_t low, size_t high) {
+void quicksort(array ary, int low, int high) {
   int i, j, pivot, pivot_index, temp;
 
-  print_array(ary);
-
   // Base case
-  if (low > high) {
+  if (low >= high) {
     return;
   }
 
   // Define median element as pivot
-  pivot_index = low + high / 2;
+  pivot_index = (low + high) / 2;
   pivot = ary.data[pivot_index];
 
   // Take pivot out of the way
@@ -69,8 +74,11 @@ void quicksort(array ary, size_t low, size_t high) {
   ary.data[low] = ary.data[pivot_index];
   ary.data[pivot_index] = temp;
 
-
-  print_array(ary);
+  // Recurse into partitions
+  // left
+  quicksort(ary, low, pivot_index - 1);
+  // right
+  quicksort(ary, pivot_index + 1, high);
 }
 
 void assert_array_sorted(array ary) {

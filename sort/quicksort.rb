@@ -41,6 +41,10 @@ if $0 == __FILE__
   quicksort(ary)
   assert(ary == [])
 
+  ary = [70, 2, 7, 4, 5]
+  quicksort(ary)
+  assert(ary == [2, 4, 5, 7, 70])
+
   ary = [1]
   quicksort(ary)
   assert(ary == [1])
