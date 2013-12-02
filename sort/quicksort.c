@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct array {
   int *data;
@@ -13,6 +14,9 @@ void quicksort(array ary, int low, int high);
 
 int main() {
   int i;
+
+  // seed only once
+  srand(time(NULL));
 
   array a1;
   a1.size = 5;
@@ -44,7 +48,7 @@ void quicksort(array ary, int low, int high) {
   }
 
   // Define median element as pivot
-  pivot_index = (low + high) / 2;
+  pivot_index = (rand() % (low - high)) + low;
   pivot = ary.data[pivot_index];
 
   // Take pivot out of the way
