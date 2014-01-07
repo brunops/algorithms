@@ -10,21 +10,15 @@ end
 def merge_arys(ary1, ary2)
   merged_arys = []
 
-  while ary1.length > 0 || ary2.length > 0
-    if ary1[0] && ary2[0]
-      if ary1[0] <= ary2[0]
-        merged_arys << ary1.shift
-      else
-        merged_arys << ary2.shift
-      end
-    elsif ary1[0]
+  while ary1.length > 0 && ary2.length > 0
+    if ary1[0] <= ary2[0]
       merged_arys << ary1.shift
     else
       merged_arys << ary2.shift
     end
   end
-  
-  merged_arys
+
+  merged_arys.concat(ary1).concat(ary2)
 end
 
 def assert(obj)
