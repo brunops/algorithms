@@ -82,9 +82,7 @@ import java.util.Arrays;
 class BinaryCode {
 
   public static void main(String[] args) {
-    System.out.println("sup");
     System.out.println(Arrays.deepToString(decode("22111")));
-    System.out.println("bro");
   }
 
   public static String[] decode(String message) {
