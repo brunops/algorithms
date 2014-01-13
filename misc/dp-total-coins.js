@@ -23,7 +23,7 @@ function totalCoins(totalSum, coins) {
     }
   }
 
-  return coinsPerSum[totalSum];
+  return coinsPerSum[totalSum] !== Infinity ? coinsPerSum[totalSum] : null;
 }
 
 // Tests
@@ -44,5 +44,7 @@ assert(totalCoins(8, [1, 3, 5]) === 2);
 assert(totalCoins(9, [1, 3, 5]) === 3);
 assert(totalCoins(10, [1, 3, 5]) === 2);
 assert(totalCoins(11, [1, 3, 5]) === 3);
+
+assert(totalCoins(11, [5]) === null);
 
 console.log('success!');
