@@ -24,7 +24,7 @@ function totalCoins(totalSum, coins) {
     // Loop through each of the given coins
     for (var coin = 0; coin < coins.length; coin++) {
 
-      // Update number of coins if c
+      // Update number of coins if
       // 1. Current coin is less than total sum
       // and
       // 2. Using the previous calculated subproblem (state sum - coins[coin])
@@ -42,7 +42,7 @@ function totalCoins(totalSum, coins) {
 // Tests
 function assert(truthiness) {
   if (!truthiness) {
-    throw "fail"
+    throw "fail";
   }
 }
 
