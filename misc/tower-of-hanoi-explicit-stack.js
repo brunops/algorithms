@@ -14,14 +14,23 @@ function assertArrayEquals(arr1, arr2, msg) {
 
   if (result) {
     for (var i = 0; i < arr1.length; ++i) {
-      if (arr1[i] !== arr2[i]) {
+      // nested arrays deep compare
+      if (Object.prototype.toString.apply(arr1[i]) === "[object Array]") {
+        result &= assertArrayEquals(arr1[i], arr2[i], msg);
+      }
+      else if (arr1[i] !== arr2[i]) {
         result = false;
         break;
       }
     }
   }
 
-  return result;
+  try {
+    assert(result, msg);
+    return true;
+  } catch(e) {
+    throw e;
+  }
 }
 
 function TowerOfHanoi(totalDisks) {
@@ -44,5 +53,6 @@ tower = new TowerOfHanoi(3);
 assertArrayEquals(tower.towers[0], [1, 2, 3], "expect tower to create all disks with different sizes given its input");
 
 // Test 2
+assertArrayEquals([[2, 6, [1, 2, 37], 12]], [[2, 6, [1, 2, 37], 12]], "array deep compare")
 
 console.log("success!");
