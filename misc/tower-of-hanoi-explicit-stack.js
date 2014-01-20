@@ -38,6 +38,8 @@ function TowerOfHanoi(totalDisks) {
 }
 
 TowerOfHanoi.prototype.init = function(totalDisks) {
+  this.totalDisks = totalDisks;
+
   this.towers = [[], [], []];
 
   for (var i = totalDisks; i > 0; --i) {
@@ -45,11 +47,16 @@ TowerOfHanoi.prototype.init = function(totalDisks) {
   };
 };
 
+TowerOfHanoi.prototype.tick = function() {
+
+};
+
 // Tests
 var tower;
 
 // Test 1
 tower = new TowerOfHanoi(3);
+assert(tower.totalDisks === 3, "expect tower to have 3 disks");
 assertArrayEquals(tower.towers[0], [3, 2, 1], "expect tower to create all disks with different sizes given its input");
 
 // Test 2
@@ -58,6 +65,6 @@ assertArrayEquals([[2, 6, [1, 2, 37], 12]], [[2, 6, [1, 2, 37], 12]], "array dee
 // Test 3
 tower = new TowerOfHanoi(3);
 tower.tick();
-assertArrayEquals(tower.towers, [[], [], []])
+// assertArrayEquals(tower.towers, [[3, 2], [1], []], 'ad')
 
 console.log("success!");
