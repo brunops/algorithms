@@ -37,8 +37,12 @@ TowerOfHanoi.prototype.init = function(totalDisks) {
 };
 
 // Tests
-var tower = new TowerOfHanoi(3);
+var tower;
 
-assertArrayEquals(tower.towers[0], [1, 2, 3]);
+// Test 1
+tower = new TowerOfHanoi(3);
+assertArrayEquals(tower.towers[0], [1, 2, 3], "expect tower to create all disks with different sizes given its input");
+
+// Test 2
 
 console.log("success!");
