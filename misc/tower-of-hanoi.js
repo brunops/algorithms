@@ -36,7 +36,28 @@
 function hanoi(totalDisks, fromTower, toTower) {
   // Base Case:
   if (totalDisks === 1) {
-    console.log(fromTower + ' -> ' + toTower);
+    // Moving only one disk the straightforward step
+    return [fromTower, '->', toTower, '\n'].join(' ');
+  }
+  else {
+    var helperTower = 6 - fromTower - toTower; // because 1 + 2 + 3 = 6
+
+    // Otherwise there are more disks, so we need to solve the N - 1 subproblem
+    // First, move the top disk to the helper tower
+    var step1 = hanoi(totalDisks - 1, fromTower, helperTower);
+
+    // Then, move the last disk to the destination tower (base case)
+    var myStep = hanoi(1, fromTower, toTower);
+
+    // Finally, solve the N - 1 subproblem again, moving the subtower from step 1
+    // to the destination tower
+    var step2 = hanoi(totalDisks - 1, helperTower, toTower);
+
+    return step1 + myStep + step2;
   }
 }
+
+console.log(hanoi(1, 1, 2));
+console.log(hanoi(3, 1, 3));
+console.log(hanoi(4, 1, 3));
 
