@@ -3,6 +3,28 @@
 // Same thing as tower-of-hanoi.js but using explicit stacks
 // so it's state can be discovered at any given time
 //
+function TowerOfHanoi(totalDisks) {
+  this.init(totalDisks);
+}
+
+TowerOfHanoi.prototype.init = function(totalDisks) {
+  this.totalDisks = totalDisks;
+
+  this.towers = [[], [], []];
+
+  for (var i = totalDisks; i > 0; --i) {
+    this.towers[0].push(i);
+  };
+};
+
+TowerOfHanoi.prototype.solve = function(totalDisks, fromTower, toTower) {
+  this.towers = [[], [], [3, 2, 1]];
+};
+
+
+// --------------------------------------
+// -------------- Tests -----------------
+// --------------------------------------
 function assert(truthiness, msg) {
   if (!truthiness) {
     throw new Error("Fail! => " + msg);
@@ -33,25 +55,6 @@ function assertArrayEquals(arr1, arr2, msg) {
   }
 }
 
-function TowerOfHanoi(totalDisks) {
-  this.init(totalDisks);
-}
-
-TowerOfHanoi.prototype.init = function(totalDisks) {
-  this.totalDisks = totalDisks;
-
-  this.towers = [[], [], []];
-
-  for (var i = totalDisks; i > 0; --i) {
-    this.towers[0].push(i);
-  };
-};
-
-TowerOfHanoi.prototype.solve = function(totalDisks, fromTower, toTower) {
-  this.towers = [[], [], [3, 2, 1]];
-};
-
-// Tests
 var tower;
 
 // Test 1
@@ -66,6 +69,8 @@ assertArrayEquals([[2, 6, [1, 2, 37], 12]], [[2, 6, [1, 2, 37], 12]], "array dee
 tower = new TowerOfHanoi(3);
 tower.solve();
 assertArrayEquals(tower.towers, [[], [], [3, 2, 1]], "#solve() solves the puzzle by moving all disks from tower 1 to tower 3");
+
+// Test 4
 
 console.log("success!");
 
