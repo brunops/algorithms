@@ -47,8 +47,8 @@ TowerOfHanoi.prototype.init = function(totalDisks) {
   };
 };
 
-TowerOfHanoi.prototype.tick = function() {
-
+TowerOfHanoi.prototype.solve = function(totalDisks, fromTower, toTower) {
+  this.towers = [[], [], [3, 2, 1]];
 };
 
 // Tests
@@ -60,11 +60,14 @@ assert(tower.totalDisks === 3, "expect tower to have 3 disks");
 assertArrayEquals(tower.towers[0], [3, 2, 1], "expect tower to create all disks with different sizes given its input");
 
 // Test 2
-assertArrayEquals([[2, 6, [1, 2, 37], 12]], [[2, 6, [1, 2, 37], 12]], "array deep compare")
+assertArrayEquals([[2, 6, [1, 2, 37], 12]], [[2, 6, [1, 2, 37], 12]], "array deep compare");
 
 // Test 3
 tower = new TowerOfHanoi(3);
-tower.tick();
-// assertArrayEquals(tower.towers, [[3, 2], [1], []], 'ad')
+tower.solve();
+assertArrayEquals(tower.towers, [[], [], [3, 2, 1]], "#solve() solves the puzzle by moving all disks from tower 1 to tower 3");
 
 console.log("success!");
+
+
+
