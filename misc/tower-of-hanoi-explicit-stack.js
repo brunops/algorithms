@@ -17,10 +17,47 @@ TowerOfHanoi.prototype.init = function(totalDisks) {
   };
 };
 
-TowerOfHanoi.prototype.solve = function(totalDisks, fromTower, toTower) {
-  this.towers = [[], [], [3, 2, 1]];
+TowerOfHanoi.prototype.getSolutionSteps = function() {
+  var solutionSteps = this.hanoiSteps(this.totalDisks, 1, 3);
+
+  // reset it
+  this.init(this.totalDisks);
+
+  return [this.towersDeepClone()].concat(solutionSteps);
 };
 
+TowerOfHanoi.prototype.hanoiSteps = function(totalDisks, fromTower, toTower) {
+  // Base case
+  // only one disk, just move it
+  if (totalDisks === 1) {
+    this.towers[toTower - 1].push(this.towers[fromTower - 1].pop());
+
+    return [this.towersDeepClone()];
+  }
+  // Solve N-1 Subproblem
+  else {
+    var helperTower = 6 - fromTower - toTower; // because 1 + 2 + 3 === 6
+
+    var step1 = this.hanoiSteps(totalDisks - 1, fromTower, helperTower);
+
+    var myStep = this.hanoiSteps(1, fromTower, toTower);
+
+    var step2 = this.hanoiSteps(totalDisks - 1, helperTower, toTower);
+
+
+    return step1.concat(myStep).concat(step2);
+  }
+};
+
+TowerOfHanoi.prototype.towersDeepClone = function() {
+  var towersClone = [];
+
+  for (var i = 0; i < this.towers.length; ++i) {
+    towersClone.push(this.towers[i].slice(0));
+  }
+
+  return towersClone;
+};
 
 // --------------------------------------
 // -------------- Tests -----------------
@@ -55,7 +92,31 @@ function assertArrayEquals(arr1, arr2, msg) {
   }
 }
 
-var tower;
+// Tests
+var tower, solutionSteps;
+
+var oneDiskSolutionSteps = [
+  [ [1], [], [] ],
+  [ [],  [], [1] ]
+];
+
+var twoDiskSolutionSteps = [
+  [ [2, 1], [],  []     ],
+  [ [2],    [1], []     ],
+  [ [],     [1], [2]    ],
+  [ [],     [],  [2, 1] ]
+];
+
+var threeDiskSolutionSteps = [
+  [ [3, 2, 1], [],     []        ],
+  [ [3, 2],    [],     [1]       ],
+  [ [3],       [2],    [1]       ],
+  [ [3],       [2, 1], []        ],
+  [ [],        [2, 1], [3]       ],
+  [ [1],       [2],    [3]       ],
+  [ [1],       [],     [3, 2]    ],
+  [ [],        [],     [3, 2, 1] ]
+];
 
 // Test 1
 tower = new TowerOfHanoi(3);
@@ -67,10 +128,24 @@ assertArrayEquals([[2, 6, [1, 2, 37], 12]], [[2, 6, [1, 2, 37], 12]], "array dee
 
 // Test 3
 tower = new TowerOfHanoi(3);
-tower.solve();
-assertArrayEquals(tower.towers, [[], [], [3, 2, 1]], "#solve() solves the puzzle by moving all disks from tower 1 to tower 3");
+tower.getSolutionSteps();
+assertArrayEquals(tower.towers, [[3, 2, 1], [], []], "#getSolutionSteps() returns the state of the towers for each step of the solution but keeps towers intact");
 
 // Test 4
+tower = new TowerOfHanoi(1);
+solutionSteps = tower.getSolutionSteps();
+assertArrayEquals(solutionSteps, oneDiskSolutionSteps, "#getSolutionSteps returns the two steps for solution of a tower with one disk");
+
+// Test 5
+tower = new TowerOfHanoi(2);
+solutionSteps = tower.getSolutionSteps();
+assertArrayEquals(solutionSteps, twoDiskSolutionSteps, "#getSolutionSteps returns the four steps for solution of a tower with two disks");
+
+// Test 6
+tower = new TowerOfHanoi(3);
+solutionSteps = tower.getSolutionSteps();
+assertArrayEquals(solutionSteps, threeDiskSolutionSteps, "#getSolutionSteps returns the nine steps for solution of a tower with three disks");
+
 
 console.log("success!");
 
