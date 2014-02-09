@@ -12,6 +12,10 @@ class QuickUnion:
     self.size = size
     self.ids = range(size)
 
+  # unite p and q by making p a child of q
+  def union(self, p, q):
+    self.ids[p] = q
+  
 
 if __name__ == '__main__':
   # Tests
@@ -20,6 +24,9 @@ if __name__ == '__main__':
 
   assert(qu.size == size)
   assert(qu.ids == range(size))
+
+  qu.union(3, 4)
+  assert(qu.ids[3] == 4)
 
   print 'success!'
 
