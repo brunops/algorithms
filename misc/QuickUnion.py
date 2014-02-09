@@ -17,7 +17,11 @@ class QuickUnion:
     self.ids[p] = q
   
   def root(self, q):
-    return self.ids[q]
+    parent = self.ids[q]
+    while parent != self.ids[parent]:
+      parent = self.ids[parent]
+
+    return parent
 
 if __name__ == '__main__':
   # Tests
@@ -31,6 +35,9 @@ if __name__ == '__main__':
   assert(qu.ids[3] == 4)
 
   assert(qu.root(3) == 4)
+
+  qu.union(4, 5)
+  assert(qu.root(3) == 5)
 
   print 'success!'
 
