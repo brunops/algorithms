@@ -20,15 +20,19 @@ class QuickUnion:
     p_root = self.root(p)
     q_root = self.root(q)
     
+    # already in the same tree
     if p_root == q_root:
       return
     
-    if self.total_tree_nodes[q_root] < self.total_tree_nodes[p_root]:
-      self.ids[q_root] = p_root
-      self.total_tree_nodes[p_root] += self.total_tree_nodes[q_root]
-    else:
+    # first tree is smaller than second tree
+    if self.total_tree_nodes[p_root] < self.total_tree_nodes[q_root]:
       self.ids[p_root] = q_root
       self.total_tree_nodes[q_root] += self.total_tree_nodes[p_root]
+
+    # second tree smaller than first or they have the same size
+    else:
+      self.ids[q_root] = p_root
+      self.total_tree_nodes[p_root] += self.total_tree_nodes[q_root]
   
   def root(self, q):
     parent = self.ids[q]
@@ -46,12 +50,12 @@ if __name__ == '__main__':
   assert(qu.ids == range(size))
 
   qu.union(3, 4)
-  assert(qu.ids[3] == 4)
-  assert(qu.root(3) == 4)
+  assert(qu.ids[4] == 3)
+  assert(qu.root(4) == 3)
 
   # weighted trees
   qu.union(4, 5)
-  assert(qu.root(5) == 4)
+  assert(qu.root(5) == 3)
 
 
   print 'success!'
