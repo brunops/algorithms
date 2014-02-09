@@ -11,10 +11,24 @@ class QuickUnion:
   def __init__(self, size):
     self.size = size
     self.ids = range(size)
+    self.total_tree_nodes = [1] * size
 
   # unite p and q by making p a child of q
+  # Trees are weighted
+  # always  make the smaller tree be the child of the bigger tree to keep them short
   def union(self, p, q):
-    self.ids[p] = q
+    p_root = self.root(p)
+    q_root = self.root(q)
+    
+    if p_root == q_root:
+      return
+    
+    if self.total_tree_nodes[q_root] < self.total_tree_nodes[p_root]:
+      self.ids[q_root] = p_root
+      self.total_tree_nodes[p_root] += self.total_tree_nodes[q_root]
+    else:
+      self.ids[p_root] = q_root
+      self.total_tree_nodes[q_root] += self.total_tree_nodes[p_root]
   
   def root(self, q):
     parent = self.ids[q]
@@ -33,11 +47,12 @@ if __name__ == '__main__':
 
   qu.union(3, 4)
   assert(qu.ids[3] == 4)
-
   assert(qu.root(3) == 4)
 
+  # weighted trees
   qu.union(4, 5)
-  assert(qu.root(3) == 5)
+  assert(qu.root(5) == 4)
+
 
   print 'success!'
 
