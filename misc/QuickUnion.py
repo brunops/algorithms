@@ -16,6 +16,8 @@ class QuickUnion:
   def union(self, p, q):
     self.ids[p] = q
   
+  def root(self, q):
+    return self.ids[q]
 
 if __name__ == '__main__':
   # Tests
@@ -27,6 +29,8 @@ if __name__ == '__main__':
 
   qu.union(3, 4)
   assert(qu.ids[3] == 4)
+
+  assert(qu.root(3) == 4)
 
   print 'success!'
 
