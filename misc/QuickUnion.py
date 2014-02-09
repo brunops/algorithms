@@ -9,14 +9,17 @@
 
 class QuickUnion:
   def __init__(self, size):
+    self.size = size
     self.ids = range(size)
 
 
 if __name__ == '__main__':
   # Tests
-  qu = QuickUnion(10)
+  size = 10
+  qu = QuickUnion(size)
 
-  assert(qu.ids == range(10))
+  assert(qu.size == size)
+  assert(qu.ids == range(size))
 
   print 'success!'
 
