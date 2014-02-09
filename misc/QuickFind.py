@@ -18,16 +18,17 @@ class QuickFind:
   def connected(self, p, q):
     return self.ids[p] == self.ids[q]
 
-# Tests
-qf = QuickFind(10)
-
-qf.union(4, 3)
-assert(qf.ids == [0, 1, 2, 3, 3, 5, 6, 7, 8, 9])
-
-qf.union(3, 8)
-assert(qf.ids == [0, 1, 2, 8, 8, 5, 6, 7, 8, 9])
-
-assert(qf.connected(3, 8) == True)
-assert(qf.connected(2, 8) == False)
-
-print "success!"
+if __name__ == '__main__':
+  # Tests
+  qf = QuickFind(10)
+  
+  qf.union(4, 3)
+  assert(qf.ids == [0, 1, 2, 3, 3, 5, 6, 7, 8, 9])
+  
+  qf.union(3, 8)
+  assert(qf.ids == [0, 1, 2, 8, 8, 5, 6, 7, 8, 9])
+  
+  assert(qf.connected(3, 8) == True)
+  assert(qf.connected(2, 8) == False)
+  
+  print "success!"
