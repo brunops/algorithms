@@ -10,11 +10,11 @@ def shuffle(array):
   for i in range(1, len(array)):
     # removing the +1 of randrange seems to garantee a perfect shuffle
     random_index = randrange(0, i + 1)
-    temp = array[i]
-    array[i] = array[random_index]
-    array[random_index] = temp
+    array[i], array[random_index] = array[random_index], array[i]
 
   return array
 
 
+print shuffle(range(0, 2))
+print shuffle(range(0, 3))
 print shuffle(range(0, 20))
