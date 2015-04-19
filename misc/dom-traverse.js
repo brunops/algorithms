@@ -23,6 +23,35 @@ var bfs = function (root, callback) {
   }
 };
 
+// preorder
+var dfs = function (root, callback) {
+  var current,
+      stack = [root];
+
+  if (!(root instanceof HTMLElement)) {
+    throw new Error('`root` needs to be a HTMLElement');
+  }
+  if (callback && !(typeof callback === 'function')) {
+    throw new Error('`callback` needs to be a Function');
+  }
+
+  while (stack.length !== 0) {
+    current = stack.pop();
+
+    if (callback) {
+      callback(current);
+    }
+
+    if (current !== root && current.nextElementSibling) {
+      stack.push(current.nextElementSibling);
+    }
+    if (current.firstElementChild) {
+      stack.push(current.firstElementChild);
+    }
+  }
+};
+
 module.exports = {
-  bfs: bfs
+  bfs: bfs,
+  dfs: dfs
 };
