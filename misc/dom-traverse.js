@@ -51,7 +51,27 @@ var dfs = function (root, callback) {
   }
 };
 
+var dfsRecur = function (root, callback) {
+  var i;
+
+  if (!(root instanceof HTMLElement)) {
+    throw new Error('`root` needs to be a HTMLElement');
+  }
+  if (callback && !(typeof callback === 'function')) {
+    throw new Error('`callback` needs to be a Function');
+  }
+
+  if (callback) {
+    callback(root);
+  }
+
+  for (i = 0; i < root.children.length; ++i) {
+    dfsRecur(root.children[i], callback);
+  }
+};
+
 module.exports = {
   bfs: bfs,
-  dfs: dfs
+  dfs: dfs,
+  dfsRecur: dfsRecur
 };
