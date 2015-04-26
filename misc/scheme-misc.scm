@@ -13,10 +13,10 @@
       ((atom? (car l)) (lat? (cdr l)))
       (else #f))))
 
-(lat? '(1 2 3 4 5)) ; -> #t
-(lat? '())          ; -> #t
-(lat? '(() 1))      ; -> #f
-(lat? '(1 2 3 ()))  ; -> #f
+; (lat? '(1 2 3 4 5)) ; -> #t
+; (lat? '())          ; -> #t
+; (lat? '(() 1))      ; -> #f
+; (lat? '(1 2 3 ()))  ; -> #f
 
 ; check if `a` is a member of the list of atoms `lat`
 (define member?
@@ -26,8 +26,23 @@
       ((eq? a (car lat)) #t)
       (else (member? a (cdr lat))))))
 
-;(member? 1 '(1 2 3))
-;(member? 2 '(1 2 3))
-;(member? 3 '(1 2 3))
-;(member? 1 '())
+; (member? 1 '(1 2 3))
+; (member? 2 '(1 2 3))
+; (member? 3 '(1 2 3))
+; (member? 1 '())
 
+; remove first accurence of an element from a given list
+(define rember
+  (lambda (x l)
+    (cond
+      ((null? l) '())
+      ((eq? x (car l)) (cdr l))
+      (else (cons
+              (car l) (rember x (cdr l)))))))
+
+(rember 1 '(1 2 3)) ; -> '(2 3)
+(rember 2 '(1 2 3)) ; -> '(1 3)
+(rember 3 '(1 2 3)) ; -> '(1 2)
+(rember 1 '())      ; -> '()
+(rember 5 '(1 2 3)) ; -> '(1 2 3))
+(rember 2 '(1 2 3 4 2 5)) ; -> '(1 3 4 2 5)
