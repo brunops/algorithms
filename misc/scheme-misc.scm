@@ -46,3 +46,19 @@
 (rember 1 '())      ; -> '()
 (rember 5 '(1 2 3)) ; -> '(1 2 3))
 (rember 2 '(1 2 3 4 2 5)) ; -> '(1 3 4 2 5)
+
+; takes a list of lists and returns another list composed of the first elements of each list
+(define firsts
+  (lambda (l)
+    (cond
+      ((null? l) '())
+      (else (cons (car (car l)) (firsts (cdr l)))))))
+
+(firsts '( (1 2 3) (2 3 4) (3 4 5) )) ; -> (1 2 3)
+(firsts '( ((1 2) 3) ((4 5) 6) (7) )) ;->  ((1 2) (4 5) 7)
+
+
+
+
+
+
