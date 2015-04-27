@@ -5,6 +5,13 @@
   (lambda (x)
     (and (not (pair? x)) (not (null? x)))))
 
+(atom? '())      ; -> #f
+(atom? 2)        ; -> #t
+(atom? '3)       ; -> #t
+(atom? '(1 2 3)) ; -> #f
+(atom? '(1 2))   ; -> #f
+(atom? 'aa)      ; -> #t
+
 ; check if given list is a list of atoms
 (define lat?
   (lambda (l)
