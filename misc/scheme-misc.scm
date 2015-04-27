@@ -64,5 +64,18 @@
 (firsts '( (1 2 3) (2 3 4) (3 4 5) )) ; -> (1 2 3)
 (firsts '( ((1 2) 3) ((4 5) 6) (7) )) ; ->  ((1 2) (4 5) 7)
 
+; insert `new` item after first occurence of `old` item in `lat`
+(define insertR
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) old) (cons old (cons new (cdr lat))))
+      (else (cons (car lat) (insertR new old (cdr lat)))))))
+
+(insertR 'ho 'hey '(hey lets go))    ; -> (hey ho lets go)
+(insertR 'foo 'nothere '(sup))       ; -> (sup)
+(insertR 'bar 'foobar '(foo foobar)) ; -> (foo bar)
+(insertR 'bar 'foobar '(foo foobar foobar)) ; -> (foo bar foobar)
+
 
 
