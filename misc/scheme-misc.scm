@@ -115,4 +115,14 @@
 (substr2 'neew 'first 'second '(bla first first second)) ; -> (bla neew first second)
 (substr2 'neew 'bla 'ble '(bli blo blu)) ; -> (bli blo blu)
 
+; removes all occurences of `x` from `lat`
+(define multirember
+  (lambda (x lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) x) (multirember x (cdr lat)))
+      (else (cons (car lat) (multirember x (cdr lat)))))))
+
+(multirember 'gone '(first second gone third)) ; -> (first second third)
+(multirember 'gone '(first gone second gone third gone)) ; -> (first second third)
 
