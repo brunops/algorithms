@@ -90,3 +90,17 @@
 (insertL 'bar 'foobar '(foo foobar)) ; -> (foo bar foobar)
 (insertL 'bar 'foobar '(foo foobar foobar)) ; -> (foo bar foobar foobar)
 
+; substitutes `old` with `new` in list `lat`
+(define substr
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) old) (cons new (cdr lat)))
+      (else (cons (car lat) (substr new old (cdr lat)))))))
+
+(substr 'hey 'bla '(bla ho lets go)) ; -> (hey ho lets go)
+(substr 'zz 'bla '(bla top)) ; -> (zz top)
+(substr 'zzz 'asd '(nothing)) ; -> (nothing)
+
+
+
