@@ -74,8 +74,19 @@
 
 (insertR 'ho 'hey '(hey lets go))    ; -> (hey ho lets go)
 (insertR 'foo 'nothere '(sup))       ; -> (sup)
-(insertR 'bar 'foobar '(foo foobar)) ; -> (foo bar)
-(insertR 'bar 'foobar '(foo foobar foobar)) ; -> (foo bar foobar)
+(insertR 'bar 'foobar '(foo foobar)) ; -> (foo foobar bar)
+(insertR 'bar 'foobar '(foo foobar foobar)) ; -> (foo foobar bar foobar)
 
+; insert `new` to the left of `old` in `lat`
+(define insertL
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) old) (cons new lat))
+      (else (cons (car lat) (insertL new old (cdr lat)))))))
 
+(insertL 'hey 'ho '(ho lets go))    ; -> (hey ho lets go)
+(insertL 'foo 'nothere '(sup))       ; -> (sup)
+(insertL 'bar 'foobar '(foo foobar)) ; -> (foo bar foobar)
+(insertL 'bar 'foobar '(foo foobar foobar)) ; -> (foo bar foobar foobar)
 
