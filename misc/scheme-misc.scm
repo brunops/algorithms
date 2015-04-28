@@ -102,5 +102,17 @@
 (substr 'zz 'bla '(bla top)) ; -> (zz top)
 (substr 'zzz 'asd '(nothing)) ; -> (nothing)
 
+; substitutes first occurence of `str1` or `str2` by `new`
+(define substr2
+  (lambda (new str1 str2 lat)
+    (cond
+      ((null? lat) '())
+      ((or (eq? str1 (car lat)) (eq? str2 (car lat))) (cons new (cdr lat)))
+      (else (cons (car lat) (substr2 new str1 str2 (cdr lat)))))))
+
+(substr2 'neew 'first 'second '(first second third)) ; -> (neew second third)
+(substr2 'neew 'first 'second '(second third))       ; -> (neew third)
+(substr2 'neew 'first 'second '(bla first first second)) ; -> (bla neew first second)
+(substr2 'neew 'bla 'ble '(bli blo blu)) ; -> (bli blo blu)
 
 
