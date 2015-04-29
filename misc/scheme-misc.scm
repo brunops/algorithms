@@ -126,3 +126,15 @@
 (multirember 'gone '(first second gone third)) ; -> (first second third)
 (multirember 'gone '(first gone second gone third gone)) ; -> (first second third)
 
+; insert `new` to the right of all `old` occurences in `lat`
+(define multiinsertR
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) old) (cons old (cons new (multiinsertR new old (cdr lat)))))
+      (else (cons (car lat) (multiinsertR new old (cdr lat)))))))
+
+(multiinsertR 'bar 'foo '(foo hey foo hey foo foo)) ; -> (foo bar hey foo bar hey foo bar foo bar)
+(multiinsertR 'bar 'foo '()) ; -> ()
+(multiinsertR 'bar 'foo '(foo)) ; -> (foo bar)
+(multiinsertR 'bar 'foo '(bar)) ; -> (bar)
