@@ -91,29 +91,29 @@
 (insertL 'bar 'foobar '(foo foobar foobar)) ; -> (foo bar foobar foobar)
 
 ; substitutes `old` with `new` in list `lat`
-(define substr
+(define subst
   (lambda (new old lat)
     (cond
       ((null? lat) '())
       ((eq? (car lat) old) (cons new (cdr lat)))
-      (else (cons (car lat) (substr new old (cdr lat)))))))
+      (else (cons (car lat) (subst new old (cdr lat)))))))
 
-(substr 'hey 'bla '(bla ho lets go)) ; -> (hey ho lets go)
-(substr 'zz 'bla '(bla top)) ; -> (zz top)
-(substr 'zzz 'asd '(nothing)) ; -> (nothing)
+(subst 'hey 'bla '(bla ho lets go)) ; -> (hey ho lets go)
+(subst 'zz 'bla '(bla top)) ; -> (zz top)
+(subst 'zzz 'asd '(nothing)) ; -> (nothing)
 
 ; substitutes first occurence of `str1` or `str2` by `new`
-(define substr2
+(define subst2
   (lambda (new str1 str2 lat)
     (cond
       ((null? lat) '())
       ((or (eq? str1 (car lat)) (eq? str2 (car lat))) (cons new (cdr lat)))
-      (else (cons (car lat) (substr2 new str1 str2 (cdr lat)))))))
+      (else (cons (car lat) (subst2 new str1 str2 (cdr lat)))))))
 
-(substr2 'neew 'first 'second '(first second third)) ; -> (neew second third)
-(substr2 'neew 'first 'second '(second third))       ; -> (neew third)
-(substr2 'neew 'first 'second '(bla first first second)) ; -> (bla neew first second)
-(substr2 'neew 'bla 'ble '(bli blo blu)) ; -> (bli blo blu)
+(subst2 'neew 'first 'second '(first second third)) ; -> (neew second third)
+(subst2 'neew 'first 'second '(second third))       ; -> (neew third)
+(subst2 'neew 'first 'second '(bla first first second)) ; -> (bla neew first second)
+(subst2 'neew 'bla 'ble '(bli blo blu)) ; -> (bli blo blu)
 
 ; removes all occurences of `x` from `lat`
 (define multirember
