@@ -172,4 +172,15 @@
 (sub1 5) ; -> 4
 (sub1 1) ; -> 0
 
+; add `m` to `n`
+(define o+
+  (lambda (m n)
+    (cond
+      ((zero? n) m)
+      (else (add1 (o+ m (sub1 n)))))))
+
+(o+ 5 5) ; -> 10
+(o+ 0 5) ; -> 5
+(o+ 1 7) ; -> 8
+
 
