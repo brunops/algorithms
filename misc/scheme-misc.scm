@@ -156,4 +156,20 @@
 (factorial 6) ; -> 720 
 
 
+; add 1 to `x`
+(define add1
+  (lambda (x)
+    (+ x 1)))
+
+(add1 5) ; -> 6
+(add1 0) ; -> 1
+
+; subtracts 1 from `x`
+(define sub1
+  (lambda (x)
+    (- x 1)))
+
+(sub1 5) ; -> 4
+(sub1 1) ; -> 0
+
 
