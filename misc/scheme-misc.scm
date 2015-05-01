@@ -194,4 +194,20 @@
 (o- 4 2) ; -> 2
 (o- 7 1) ; -> 6
 
+; fibonacci
+(define fib
+  (lambda (x)
+    (cond
+      ((<= x 1) x)
+      (else (+ (fib (- x 1)) (fib (- x 2)))))))
+
+(fib 0)
+(fib 1)
+(fib 2)
+(fib 3)
+(fib 4)
+(fib 5)
+(fib 6)
+(fib 20)
+
 
