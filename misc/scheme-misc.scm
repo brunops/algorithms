@@ -64,5 +64,134 @@
 (firsts '( (1 2 3) (2 3 4) (3 4 5) )) ; -> (1 2 3)
 (firsts '( ((1 2) 3) ((4 5) 6) (7) )) ; ->  ((1 2) (4 5) 7)
 
+; insert `new` item after first occurence of `old` item in `lat`
+(define insertR
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) old) (cons old (cons new (cdr lat))))
+      (else (cons (car lat) (insertR new old (cdr lat)))))))
+
+(insertR 'ho 'hey '(hey lets go))    ; -> (hey ho lets go)
+(insertR 'foo 'nothere '(sup))       ; -> (sup)
+(insertR 'bar 'foobar '(foo foobar)) ; -> (foo foobar bar)
+(insertR 'bar 'foobar '(foo foobar foobar)) ; -> (foo foobar bar foobar)
+
+; insert `new` to the left of `old` in `lat`
+(define insertL
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) old) (cons new lat))
+      (else (cons (car lat) (insertL new old (cdr lat)))))))
+
+(insertL 'hey 'ho '(ho lets go))    ; -> (hey ho lets go)
+(insertL 'foo 'nothere '(sup))       ; -> (sup)
+(insertL 'bar 'foobar '(foo foobar)) ; -> (foo bar foobar)
+(insertL 'bar 'foobar '(foo foobar foobar)) ; -> (foo bar foobar foobar)
+
+; substitutes `old` with `new` in list `lat`
+(define subst
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) old) (cons new (cdr lat)))
+      (else (cons (car lat) (subst new old (cdr lat)))))))
+
+(subst 'hey 'bla '(bla ho lets go)) ; -> (hey ho lets go)
+(subst 'zz 'bla '(bla top)) ; -> (zz top)
+(subst 'zzz 'asd '(nothing)) ; -> (nothing)
+
+; substitutes first occurence of `str1` or `str2` by `new`
+(define subst2
+  (lambda (new str1 str2 lat)
+    (cond
+      ((null? lat) '())
+      ((or (eq? str1 (car lat)) (eq? str2 (car lat))) (cons new (cdr lat)))
+      (else (cons (car lat) (subst2 new str1 str2 (cdr lat)))))))
+
+(subst2 'neew 'first 'second '(first second third)) ; -> (neew second third)
+(subst2 'neew 'first 'second '(second third))       ; -> (neew third)
+(subst2 'neew 'first 'second '(bla first first second)) ; -> (bla neew first second)
+(subst2 'neew 'bla 'ble '(bli blo blu)) ; -> (bli blo blu)
+
+; removes all occurences of `x` from `lat`
+(define multirember
+  (lambda (x lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) x) (multirember x (cdr lat)))
+      (else (cons (car lat) (multirember x (cdr lat)))))))
+
+(multirember 'gone '(first second gone third)) ; -> (first second third)
+(multirember 'gone '(first gone second gone third gone)) ; -> (first second third)
+
+; insert `new` to the right of all `old` occurences in `lat`
+(define multiinsertR
+  (lambda (new old lat)
+    (cond
+      ((null? lat) '())
+      ((eq? (car lat) old) (cons old (cons new (multiinsertR new old (cdr lat)))))
+      (else (cons (car lat) (multiinsertR new old (cdr lat)))))))
+
+(multiinsertR 'bar 'foo '(foo hey foo hey foo foo)) ; -> (foo bar hey foo bar hey foo bar foo bar)
+(multiinsertR 'bar 'foo '()) ; -> ()
+(multiinsertR 'bar 'foo '(foo)) ; -> (foo bar)
+(multiinsertR 'bar 'foo '(bar)) ; -> (bar)
+
+
+; prints factorials
+(define factorial
+  (lambda (x)
+    (cond 
+      ((<= x 1) 1)
+      (else (* x (factorial (- x 1)))))))
+
+(factorial 0) ; -> 1
+(factorial 1) ; -> 1
+(factorial 2) ; -> 2
+(factorial 3) ; -> 6
+(factorial 4) ; -> 24
+(factorial 5) ; -> 120
+(factorial 6) ; -> 720 
+
+
+; add 1 to `x`
+(define add1
+  (lambda (x)
+    (+ x 1)))
+
+(add1 5) ; -> 6
+(add1 0) ; -> 1
+
+; subtracts 1 from `x`
+(define sub1
+  (lambda (x)
+    (- x 1)))
+
+(sub1 5) ; -> 4
+(sub1 1) ; -> 0
+
+; add `m` to `n`
+(define o+
+  (lambda (m n)
+    (cond
+      ((zero? n) m)
+      (else (add1 (o+ m (sub1 n)))))))
+
+(o+ 5 5) ; -> 10
+(o+ 0 5) ; -> 5
+(o+ 1 7) ; -> 8
+
+; substracts `n` from `m`
+(define o-
+  (lambda (m n)
+    (cond
+      ((zero? n) m)
+      (else (sub1 (o- m (sub1 n)))))))
+
+(o- 5 5) ; -> 0
+(o- 4 2) ; -> 2
+(o- 7 1) ; -> 6
 
 
