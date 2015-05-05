@@ -41,12 +41,13 @@
 ; sorts a list `lat`
 (define mergesort
   (lambda (lat)
-    (cond
-      ((null? lat) '())
-      ((eq? (len lat) 1) lat)
-      (else (merge
-              (mergesort (slice lat 0 (quotient (len lat) 2)))
-              (mergesort (slice lat (quotient (len lat) 2) (len lat))))))))
+    (let ((length (len lat)))
+      (cond
+        ((null? lat) '())
+        ((eq? length 1) lat)
+        (else (merge
+                (mergesort (slice lat 0 (quotient length 2)))
+                (mergesort (slice lat (quotient length 2) (len lat)))))))))
 
 (mergesort '(4 3 6))                              ; -> (3 4 6)
 (mergesort '(4 3 63 89 99 100 122 88 4 5 1 0 -2)) ; -> (-2 0 1 3 4 4 5 63 88 89 99 100 122)
