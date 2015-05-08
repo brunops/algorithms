@@ -71,6 +71,11 @@ LinkedList.prototype.print = function () {
   });
 };
 
+module.exports = {
+  Node: Node,
+  LinkedList: LinkedList
+};
+
 var list = new LinkedList();
 
 list.append(1);
