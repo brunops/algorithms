@@ -56,6 +56,39 @@ LinkedList.prototype = {
     return null;
   },
 
+  insertBefore: function (num, before) {
+    // empty list
+    if (!this.head) {
+      return null;
+    }
+
+    var prev = this.head,
+        curr = prev.next;
+
+    if (this.head.data === before) {
+      var node = new Node(num);
+      node.next = this.head;
+      this.head = node;
+      return node;
+    }
+
+    do {
+      if (curr && curr.data === before) {
+        var node = new Node(num);
+        node.next = curr;
+        prev.next = node;
+        return node;
+      }
+
+      prev = curr;
+      if (curr) {
+        curr = curr.next;
+      }
+    } while (prev);
+
+    return null;
+  },
+
   print: function () {
     var curr = this.head;
 
@@ -85,4 +118,25 @@ list.print();
 
 console.log('-------- 7 after 15');
 list.insertAfter(7, 15);
+list.print();
+
+
+console.log('-------- 70 after 15000 (non existing number)');
+list.insertAfter(70, 15000);
+list.print();
+
+console.log('-------- 1 before 15000 (non existing number)');
+list.insertBefore(1, 15000);
+list.print();
+
+console.log('-------- 1 before 5');
+list.insertBefore(1, 5);
+list.print();
+
+console.log('-------- 11 before 30');
+list.insertBefore(11, 30);
+list.print();
+
+console.log('-------- 55 before 15');
+list.insertBefore(55, 15);
 list.print();
