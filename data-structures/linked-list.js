@@ -24,15 +24,15 @@ LinkedList.prototype = {
 
     if (!this.head) {
       this.head = node;
+      return node;
     }
-    else {
-      var curr = this.head;
-      while (curr.next) {
-        curr = curr.next;
-      }
 
-      curr.next = node;
+    var curr = this.head;
+    while (curr.next) {
+      curr = curr.next;
     }
+
+    curr.next = node;
 
     return node;
   },
@@ -79,8 +79,3 @@ module.exports = {
   Node: Node,
   LinkedList: LinkedList
 };
-
-
-
-
-
