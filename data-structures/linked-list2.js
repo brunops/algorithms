@@ -89,7 +89,7 @@ LinkedList.prototype = {
     return null;
   },
 
-  findLoopBegin: function () {
+  findLoopBeginning: function () {
     var slow = this.head,
         fast = this.head;
 
@@ -115,6 +115,24 @@ LinkedList.prototype = {
     }
 
     return fast;
+  },
+
+  getLoopSize: function () {
+    var size = 1,
+        loopBeginning = this.findLoopBeginning();
+
+    if (!loopBeginning) {
+      // no loop!
+      return 0;
+    }
+
+    var curr = loopBeginning.next;
+    while (curr !== loopBeginning) {
+      size += 1;
+      curr = curr.next;
+    }
+
+    return size;
   },
 
   print: function () {
@@ -177,7 +195,8 @@ list.print();
 
 console.log('-------- [Cycle List]');
 
-console.log('First list with no cycles, cycle starts at: %s', list.findLoopBegin());
+console.log('First list with no cycles, cycle starts at: %s', list.findLoopBeginning());
+console.log('Loop size: %s', list.getLoopSize());
 
 
 var list2 = new LinkedList();
@@ -203,4 +222,5 @@ list2.insertEnd(30);
 var tail = list2.insertEnd(35);
 tail.next = cycleStart;
 
-console.log('Cycle starts at node: %s', list2.findLoopBegin().data);
+console.log('Cycle starts at node: %s', list2.findLoopBeginning().data);
+console.log('Loop size: %s', list2.getLoopSize());
