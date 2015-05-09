@@ -33,6 +33,29 @@ LinkedList.prototype = {
     return node;
   },
 
+  insertAfter: function (num, after) {
+    var curr = this.head;
+
+    // empty list
+    if (!curr) {
+      return null;
+    }
+
+    do {
+      if (curr.data === after) {
+        var node = new Node(num);
+
+        node.next = curr.next;
+        curr.next = node;
+        return node;
+      }
+
+      curr = curr.next;
+    } while (curr);
+
+    return null;
+  },
+
   print: function () {
     var curr = this.head;
 
@@ -52,8 +75,14 @@ list.insertEnd(15);
 
 
 list.print();
+console.log('-------- 30 after 15');
+list.insertAfter(30, 15);
+list.print();
 
+console.log('-------- 1 after 5');
+list.insertAfter(1, 5);
+list.print();
 
-
-
-
+console.log('-------- 7 after 15');
+list.insertAfter(7, 15);
+list.print();
