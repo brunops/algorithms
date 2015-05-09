@@ -89,6 +89,34 @@ LinkedList.prototype = {
     return null;
   },
 
+  findLoopBegin: function () {
+    var slow = this.head,
+        fast = this.head;
+
+    while (fast && fast.next) {
+      slow = slow.next;
+      fast = fast.next.next;
+      if (slow === fast) {
+        // collision!
+        break;
+      }
+    }
+
+    // no cycle check
+    if (fast === null || fast.next === null) {
+      return null;
+    }
+
+    // move slow back to head and find stating node
+    slow = this.head;
+    while (slow !== fast) {
+      slow = slow.next;
+      fast = fast.next;
+    }
+
+    return fast;
+  },
+
   print: function () {
     var curr = this.head;
 
@@ -99,6 +127,10 @@ LinkedList.prototype = {
   }
 };
 
+module.exports = {
+  Node: Node,
+  LinkedList: LinkedList
+};
 
 var list = new LinkedList();
 
@@ -140,3 +172,35 @@ list.print();
 console.log('-------- 55 before 15');
 list.insertBefore(55, 15);
 list.print();
+
+
+
+console.log('-------- [Cycle List]');
+
+console.log('First list with no cycles, cycle starts at: %s', list.findLoopBegin());
+
+
+var list2 = new LinkedList();
+console.log('\nnew list:')
+console.log(' 1-2-3-5-8');
+console.log('        / \\');
+console.log('      35   13');
+console.log('       |    \\');
+console.log('       30    15');
+console.log('        \\   /');
+console.log('        25-21');
+
+list2.insertEnd(1);
+list2.insertEnd(2);
+list2.insertEnd(3);
+list2.insertEnd(5);
+var cycleStart = list2.insertEnd(8);
+list2.insertEnd(13);
+list2.insertEnd(15);
+list2.insertEnd(21);
+list2.insertEnd(25);
+list2.insertEnd(30);
+var tail = list2.insertEnd(35);
+tail.next = cycleStart;
+
+console.log('Cycle starts at node: %s', list2.findLoopBegin().data);
