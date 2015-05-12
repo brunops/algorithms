@@ -1,5 +1,3 @@
-require('colors');
-
 var Node = function (data) {
   this.data = data;
   this.next = null;
@@ -44,14 +42,7 @@ Queue.prototype = {
 module.exports = Queue;
 
 if (require.main === module) {
-  var assert = function (truth, msg) {
-    if (!truth) {
-      throw new Error(('Fail: '.red) + (msg || '').yellow);
-    }
-    else {
-      console.log(('Pass: '.green) + (msg || '').yellow);
-    }
-  };
+  var assert = require('../misc/javascript/assert');
 
   var queue = new Queue();
   assert(queue.isEmpty() === true, "#isEmpty returns true when queue is empty");
