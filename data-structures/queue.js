@@ -33,7 +33,7 @@ Queue.prototype = {
       this.first = first.next;
     }
 
-    return first;
+    return first ? first.data : null;
   },
 
   isEmpty: function () {
@@ -68,9 +68,9 @@ if (require.main === module) {
   assert(queue.first.data === 1, "first is 1");
   assert(queue.last.data === 3, "last is 3");
 
-  assert(queue.dequeue().data === 1, "FIFO, first dequeued item is 1");
-  assert(queue.dequeue().data === 2, "FIFO, second dequeued item is 2");
-  assert(queue.dequeue().data === 3, "FIFO, third dequeued item is 3");
+  assert(queue.dequeue() === 1, "FIFO, first dequeued item is 1");
+  assert(queue.dequeue() === 2, "FIFO, second dequeued item is 2");
+  assert(queue.dequeue() === 3, "FIFO, third dequeued item is 3");
   assert(queue.dequeue() === null, "FIFO, #dequeue returns null when queue is empty");
 
   assert(queue.isEmpty() === true, "#isEmpty returns true when queue is empty");
