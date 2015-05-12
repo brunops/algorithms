@@ -37,32 +37,36 @@ Queue.prototype = {
   }
 };
 
+module.exports = Queue;
 
-var assert = function (truth, msg) {
-  if (!truth) {
-    throw new Error(('Fail: '.red) + (msg || '').yellow);
-  }
-  else {
-    console.log(('Pass: '.green) + (msg || '').yellow);
-  }
-};
+if (require.main === module) {
+  var assert = function (truth, msg) {
+    if (!truth) {
+      throw new Error(('Fail: '.red) + (msg || '').yellow);
+    }
+    else {
+      console.log(('Pass: '.green) + (msg || '').yellow);
+    }
+  };
 
-var queue = new Queue();
-queue.enqueue(1);
-assert(queue.first.data === 1, "first is 1");
-assert(queue.last.data === 1, "last is 1");
+  var queue = new Queue();
+  queue.enqueue(1);
+  assert(queue.first.data === 1, "first is 1");
+  assert(queue.last.data === 1, "last is 1");
 
-queue.enqueue(2);
-assert(queue.first.data === 1, "first is 1");
-assert(queue.last.data === 2, "last is 2");
+  queue.enqueue(2);
+  assert(queue.first.data === 1, "first is 1");
+  assert(queue.last.data === 2, "last is 2");
 
-queue.enqueue(3);
-assert(queue.first.data === 1, "first is 1");
-assert(queue.last.data === 3, "last is 3");
+  queue.enqueue(3);
+  assert(queue.first.data === 1, "first is 1");
+  assert(queue.last.data === 3, "last is 3");
 
-assert(queue.dequeue().data === 1, "FIFO, first dequeued item is 1");
-assert(queue.dequeue().data === 2, "FIFO, second dequeued item is 2");
-assert(queue.dequeue().data === 3, "FIFO, third dequeued item is 3");
-assert(queue.dequeue() === null, "FIFO, #dequeue returns null when queue is empty");
+  assert(queue.dequeue().data === 1, "FIFO, first dequeued item is 1");
+  assert(queue.dequeue().data === 2, "FIFO, second dequeued item is 2");
+  assert(queue.dequeue().data === 3, "FIFO, third dequeued item is 3");
+  assert(queue.dequeue() === null, "FIFO, #dequeue returns null when queue is empty");
 
-console.log('\n\nwin!')
+  console.log('\n\nwin!')
+}
+
