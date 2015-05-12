@@ -34,6 +34,10 @@ Queue.prototype = {
     }
 
     return first;
+  },
+
+  isEmpty: function () {
+    return this.first === null;
   }
 };
 
@@ -50,9 +54,11 @@ if (require.main === module) {
   };
 
   var queue = new Queue();
+  assert(queue.isEmpty() === true, "#isEmpty returns true when queue is empty");
   queue.enqueue(1);
   assert(queue.first.data === 1, "first is 1");
   assert(queue.last.data === 1, "last is 1");
+  assert(queue.isEmpty() === false, "#isEmpty returns false when queue is not empty");
 
   queue.enqueue(2);
   assert(queue.first.data === 1, "first is 1");
@@ -66,6 +72,8 @@ if (require.main === module) {
   assert(queue.dequeue().data === 2, "FIFO, second dequeued item is 2");
   assert(queue.dequeue().data === 3, "FIFO, third dequeued item is 3");
   assert(queue.dequeue() === null, "FIFO, #dequeue returns null when queue is empty");
+
+  assert(queue.isEmpty() === true, "#isEmpty returns true when queue is empty");
 
   console.log('\n\nwin!')
 }
