@@ -33,6 +33,8 @@ Tree.prototype = {
   }
 };
 
+module.exports = Tree;
+
 if (require.main === module) {
   var assert = require('../misc/javascript/assert');
 
