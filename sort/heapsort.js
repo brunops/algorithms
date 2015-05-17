@@ -16,6 +16,8 @@ function heapsort(array) {
   return sortedArray;
 }
 
+module.exports = heapsort;
+
 if (require.main === module) {
   var assert = require('../misc/javascript/assert');
 
