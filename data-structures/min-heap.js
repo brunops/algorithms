@@ -107,6 +107,8 @@ MinHeap.prototype = {
   }
 };
 
+module.exports = MinHeap;
+
 if (require.main === module) {
   var assert = require('../misc/javascript/assert');
 
