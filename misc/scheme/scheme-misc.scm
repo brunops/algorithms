@@ -210,4 +210,15 @@
 (fib 6)
 (fib 20)
 
+; multiply `n` by `m`
+(define x
+  (lambda (n m)
+    (cond
+      ((zero? m) 0)
+      (else (o+ n (x n (sub1 m)))))))
+
+(x 5 4) ; -> 20
+(x 3 0) ; -> 0
+(x 1 5) ; -> 5
+(x 13 7) ; -> 91
 
