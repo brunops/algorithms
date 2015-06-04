@@ -222,14 +222,18 @@
 (x 1 5) ; -> 5
 (x 13 7) ; -> 91
 
-; add two tuples of the same length
+; add two tuples
 (define tup+
   (lambda (tup1 tup2)
     (cond
-      ((and (null? tup1) (null? tup2)) '())
+      ((null? tup1) tup2)
+      ((null? tup2) tup1)
       (else (cons (+ (car tup1) (car tup2)) (tup+ (cdr tup1) (cdr tup2)))))))
 
 (tup+ '(1 2 3 4 5) '(5 4 3 2 1)) ; -> (6 6 6 6 6)
 (tup+ '(1 2) '(54 100)) ; -> (55 102)
 (tup+ '(1) '(2)) ; -> (3)
+(tup+ '(1 5) '(2)) ; -> (3 5)
+(tup+ '(1 5) '(2 6 7 12 55)) ; -> (3 11 7 12 55)
+
 
