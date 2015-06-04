@@ -236,7 +236,7 @@
 (tup+ '(1 5) '(2)) ; -> (3 5)
 (tup+ '(1 5) '(2 6 7 12 55)) ; -> (3 11 7 12 55)
 
-; return if `n` is greater than `m`
+; return if `n` is less than `m`
 (define o<
   (lambda (n m)
     (cond
@@ -247,6 +247,18 @@
 (o< 3 4) ; -> #t
 (o< 5 3) ; -> #f
 (o< 2 2) ; -> #f
+
+; return if `n` is greater than `m`
+(define o>
+  (lambda (n m)
+    (cond
+      ((zero? n) #f)
+      ((zero? m) #t)
+      (else (o> (sub1 n) (sub1 m))))))
+
+(o> 4 3) ; -> #t
+(o> 3 5) ; -> #f
+(o> 2 2) ; -> #f
 
 
 
