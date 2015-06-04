@@ -260,6 +260,17 @@
 (o> 3 5) ; -> #f
 (o> 2 2) ; -> #f
 
+; return if `n` is equal to `m`
+(define o=
+  (lambda (n m)
+    (cond
+      ((o> n m) #f)
+      ((o< n m) #f)
+      (else #t))))
+
+(o= 4 3) ; -> #f
+(o= 3 5) ; -> #f
+(o= 2 2) ; -> #t
 
 
 
