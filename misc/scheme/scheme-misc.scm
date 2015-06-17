@@ -272,6 +272,17 @@
 (o= 3 5) ; -> #f
 (o= 2 2) ; -> #t
 
+; return quotient
+(define o/
+  (lambda (n m)
+    (cond
+      ((o< n m) 0)
+      (else (add1 (o/ (o- n m) m))))))
+
+(o/ 4 2) ; -> 2
+(o/ 5 3) ; -> 1
+(o/ 128 2) ; -> 64
+(o/ 5 10) ; -> 0
 
 
 
