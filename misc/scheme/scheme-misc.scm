@@ -284,6 +284,24 @@
 (o/ 128 2) ; -> 64
 (o/ 5 10) ; -> 0
 
+; return item `n` from list `lat`, starts with 1
+(define pick
+  (lambda (n lat)
+    (cond
+      ((zero? (sub1 n)) (car lat))
+      (else (pick (sub1 n) (cdr lat))))))
+
+(pick 1 '(5 10 7)) ; -> 5
+(pick 2 '(7 6)) ; -> 6
+(pick 3 '(1 2 3)) ; -> 3
+(pick 2 '(5 (2 2) 3)) ; -> (2 2)
+
+
+
+
+
+
+
 
 
 
