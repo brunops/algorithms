@@ -322,7 +322,19 @@
 (no-nums '(1 a 2 b 3 c)) ; -> (a b c)
 (no-nums '(a 1 b 2 c 3)) ; -> (a b c)
 
+; removes all non number elements from a list and returns a list only with numbers
+(define all-nums
+  (lambda (lat)
+    (cond
+      ((null? lat) '())
+      ((not (number? (car lat))) (all-nums (cdr lat)))
+      (else (cons (car lat) (all-nums (cdr lat)))))))
 
+(all-nums '(1)) ; -> (1)
+(all-nums '(a b c)) ; -> ()
+(all-nums '(1 a b)) ; -> (1)
+(all-nums '(1 a 2 b 3 c)) ; -> (1 2 3)
+(all-nums '(a 1 b 2 c 3)) ; -> (1 2 3)
 
 
 
