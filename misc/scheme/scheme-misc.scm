@@ -296,6 +296,18 @@
 (pick 3 '(1 2 3)) ; -> 3
 (pick 2 '(5 (2 2) 3)) ; -> (2 2)
 
+; return a list without item `n` from list `lat`, starts with 1
+(define rempick
+  (lambda (n lat)
+    (cond
+      ((zero? (sub1 n)) (cdr lat))
+      (else (cons (car lat) (rempick (sub1 n) (cdr lat)))))))
+
+(rempick 1 '(5 10 30)) ; -> (10 30)
+(rempick 2 '(1 2 3)) ; -> (1 3)
+(rempick 1 '(1)) ; -> ()
+(rempick 3 '(1 2 3 4 5)) ; -> (1 2 4 5)
+
 
 
 
