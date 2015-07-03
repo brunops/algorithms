@@ -336,6 +336,20 @@
 (all-nums '(1 a 2 b 3 c)) ; -> (1 2 3)
 (all-nums '(a 1 b 2 c 3)) ; -> (1 2 3)
 
+; Returns true if `a1` and `a2` atoms are the same
+(define eqan?
+  (lambda (a1 a2)
+    (cond
+      ((and (number? a1) (number? a2)) (= a1 a2))
+      ((or (number? a1) (number? a2)) #f)
+      (else (eq? a1 a2)))))
+
+(eqan? 1 1) ; -> #t
+(eqan? 1 2) ; -> #f
+(eqan? 1 'a) ; -> #f
+(eqan? 'a 'a) ; -> #t
+(eqan? 'a 'b) ; -> #f
+
 
 
 
