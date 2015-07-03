@@ -350,6 +350,19 @@
 (eqan? 'a 'a) ; -> #t
 (eqan? 'a 'b) ; -> #f
 
+; Counts how many times atom `a` occurs in `lat`
+(define occur
+  (lambda (a lat)
+    (cond
+      ((null? lat) 0)
+      ((eqan? a (car lat)) (add1 (occur a (cdr lat))))
+      (else (occur a (cdr lat))))))
+
+(occur 'a '(1 2 3)) ; -> 0
+(occur 1 '(1 2 3)) ; -> 1
+(occur 1 '(1 2 1 3)) ; -> 2
+(occur 'a '(1 a 2 a 3 a)) ; -> 3
+              
 
 
 
