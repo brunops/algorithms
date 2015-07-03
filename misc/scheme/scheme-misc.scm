@@ -363,8 +363,16 @@
 (occur 1 '(1 2 1 3)) ; -> 2
 (occur 'a '(1 a 2 a 3 a)) ; -> 3
               
+; return #t if `n` is 1 and #f otherwise
+(define one?
+  (lambda (n)
+    (eqan? n 1)))
 
-
+(one? 1) ; -> #t
+(one? 0) ; -> #f
+(one? 2) ; -> #f
+(one? '(1)) ; -> #f
+(one? 'a) ; -> #f
 
 
 
