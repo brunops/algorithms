@@ -308,6 +308,33 @@
 (rempick 1 '(1)) ; -> ()
 (rempick 3 '(1 2 3 4 5)) ; -> (1 2 4 5)
 
+; removes all numbers from a list an returns the other elements
+(define no-nums
+  (lambda (lat)
+    (cond
+      ((null? lat) '())
+      ((number? (car lat)) (no-nums (cdr lat)))
+      (else (cons (car lat) (no-nums (cdr lat)))))))
+
+(no-nums '(1)) ; -> ()
+(no-nums '(a b c)) ; -> (a b c)
+(no-nums '(1 a b)) ; -> (a b)
+(no-nums '(1 a 2 b 3 c)) ; -> (a b c)
+(no-nums '(a 1 b 2 c 3)) ; -> (a b c)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
