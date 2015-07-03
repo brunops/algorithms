@@ -374,6 +374,17 @@
 (one? '(1)) ; -> #f
 (one? 'a) ; -> #f
 
+; return a list without item `n` from list `lat`, starts with 1 - using `one?`
+(define rempick2
+  (lambda (n lat)
+    (cond
+      ((one? n) (cdr lat))
+      (else (cons (car lat) (rempick2 (sub1 n) (cdr lat)))))))
+
+(rempick2 1 '(5 10 30)) ; -> (10 30)
+(rempick2 2 '(1 2 3)) ; -> (1 3)
+(rempick2 1 '(1)) ; -> ()
+(rempick2 3 '(1 2 3 4 5)) ; -> (1 2 4 5)
 
 
 
