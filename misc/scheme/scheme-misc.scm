@@ -210,4 +210,196 @@
 (fib 6)
 (fib 20)
 
+; multiply `n` by `m`
+(define x
+  (lambda (n m)
+    (cond
+      ((zero? m) 0)
+      (else (o+ n (x n (sub1 m)))))))
+
+(x 5 4) ; -> 20
+(x 3 0) ; -> 0
+(x 1 5) ; -> 5
+(x 13 7) ; -> 91
+
+; add two tuples
+(define tup+
+  (lambda (tup1 tup2)
+    (cond
+      ((null? tup1) tup2)
+      ((null? tup2) tup1)
+      (else (cons (+ (car tup1) (car tup2)) (tup+ (cdr tup1) (cdr tup2)))))))
+
+(tup+ '(1 2 3 4 5) '(5 4 3 2 1)) ; -> (6 6 6 6 6)
+(tup+ '(1 2) '(54 100)) ; -> (55 102)
+(tup+ '(1) '(2)) ; -> (3)
+(tup+ '(1 5) '(2)) ; -> (3 5)
+(tup+ '(1 5) '(2 6 7 12 55)) ; -> (3 11 7 12 55)
+
+; return if `n` is less than `m`
+(define o<
+  (lambda (n m)
+    (cond
+      ((zero? m) #f)
+      ((zero? n) #t)
+      (else (o< (sub1 n) (sub1 m))))))
+
+(o< 3 4) ; -> #t
+(o< 5 3) ; -> #f
+(o< 2 2) ; -> #f
+
+; return if `n` is greater than `m`
+(define o>
+  (lambda (n m)
+    (cond
+      ((zero? n) #f)
+      ((zero? m) #t)
+      (else (o> (sub1 n) (sub1 m))))))
+
+(o> 4 3) ; -> #t
+(o> 3 5) ; -> #f
+(o> 2 2) ; -> #f
+
+; return if `n` is equal to `m`
+(define o=
+  (lambda (n m)
+    (cond
+      ((o> n m) #f)
+      ((o< n m) #f)
+      (else #t))))
+
+(o= 4 3) ; -> #f
+(o= 3 5) ; -> #f
+(o= 2 2) ; -> #t
+
+; return quotient
+(define o/
+  (lambda (n m)
+    (cond
+      ((o< n m) 0)
+      (else (add1 (o/ (o- n m) m))))))
+
+(o/ 4 2) ; -> 2
+(o/ 5 3) ; -> 1
+(o/ 128 2) ; -> 64
+(o/ 5 10) ; -> 0
+
+; return item `n` from list `lat`, starts with 1
+(define pick
+  (lambda (n lat)
+    (cond
+      ((zero? (sub1 n)) (car lat))
+      (else (pick (sub1 n) (cdr lat))))))
+
+(pick 1 '(5 10 7)) ; -> 5
+(pick 2 '(7 6)) ; -> 6
+(pick 3 '(1 2 3)) ; -> 3
+(pick 2 '(5 (2 2) 3)) ; -> (2 2)
+
+; return a list without item `n` from list `lat`, starts with 1
+(define rempick
+  (lambda (n lat)
+    (cond
+      ((zero? (sub1 n)) (cdr lat))
+      (else (cons (car lat) (rempick (sub1 n) (cdr lat)))))))
+
+(rempick 1 '(5 10 30)) ; -> (10 30)
+(rempick 2 '(1 2 3)) ; -> (1 3)
+(rempick 1 '(1)) ; -> ()
+(rempick 3 '(1 2 3 4 5)) ; -> (1 2 4 5)
+
+; removes all numbers from a list an returns the other elements
+(define no-nums
+  (lambda (lat)
+    (cond
+      ((null? lat) '())
+      ((number? (car lat)) (no-nums (cdr lat)))
+      (else (cons (car lat) (no-nums (cdr lat)))))))
+
+(no-nums '(1)) ; -> ()
+(no-nums '(a b c)) ; -> (a b c)
+(no-nums '(1 a b)) ; -> (a b)
+(no-nums '(1 a 2 b 3 c)) ; -> (a b c)
+(no-nums '(a 1 b 2 c 3)) ; -> (a b c)
+
+; removes all non number elements from a list and returns a list only with numbers
+(define all-nums
+  (lambda (lat)
+    (cond
+      ((null? lat) '())
+      ((not (number? (car lat))) (all-nums (cdr lat)))
+      (else (cons (car lat) (all-nums (cdr lat)))))))
+
+(all-nums '(1)) ; -> (1)
+(all-nums '(a b c)) ; -> ()
+(all-nums '(1 a b)) ; -> (1)
+(all-nums '(1 a 2 b 3 c)) ; -> (1 2 3)
+(all-nums '(a 1 b 2 c 3)) ; -> (1 2 3)
+
+; Returns true if `a1` and `a2` atoms are the same
+(define eqan?
+  (lambda (a1 a2)
+    (cond
+      ((and (number? a1) (number? a2)) (= a1 a2))
+      ((or (number? a1) (number? a2)) #f)
+      (else (eq? a1 a2)))))
+
+(eqan? 1 1) ; -> #t
+(eqan? 1 2) ; -> #f
+(eqan? 1 'a) ; -> #f
+(eqan? 'a 'a) ; -> #t
+(eqan? 'a 'b) ; -> #f
+
+; Counts how many times atom `a` occurs in `lat`
+(define occur
+  (lambda (a lat)
+    (cond
+      ((null? lat) 0)
+      ((eqan? a (car lat)) (add1 (occur a (cdr lat))))
+      (else (occur a (cdr lat))))))
+
+(occur 'a '(1 2 3)) ; -> 0
+(occur 1 '(1 2 3)) ; -> 1
+(occur 1 '(1 2 1 3)) ; -> 2
+(occur 'a '(1 a 2 a 3 a)) ; -> 3
+              
+; return #t if `n` is 1 and #f otherwise
+(define one?
+  (lambda (n)
+    (eqan? n 1)))
+
+(one? 1) ; -> #t
+(one? 0) ; -> #f
+(one? 2) ; -> #f
+(one? '(1)) ; -> #f
+(one? 'a) ; -> #f
+
+; return a list without item `n` from list `lat`, starts with 1 - using `one?`
+(define rempick2
+  (lambda (n lat)
+    (cond
+      ((one? n) (cdr lat))
+      (else (cons (car lat) (rempick2 (sub1 n) (cdr lat)))))))
+
+(rempick2 1 '(5 10 30)) ; -> (10 30)
+(rempick2 2 '(1 2 3)) ; -> (1 3)
+(rempick2 1 '(1)) ; -> ()
+(rempick2 3 '(1 2 3 4 5)) ; -> (1 2 4 5)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
