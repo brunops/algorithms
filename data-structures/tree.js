@@ -30,6 +30,20 @@ Tree.prototype = {
     }, this);
 
     return false;
+  },
+
+  *[Symbol.iterator]() {
+    let queue = [ this ]
+
+    while (queue.length) {
+      let curr = queue.shift()
+
+      yield curr.value
+
+      for (const child of curr.children) {
+        queue.push(child)
+      }
+    }
   }
 };
 
@@ -70,6 +84,19 @@ if (require.main === module) {
   assert(branch3.children[1].value === 8, 'middle1 branch3 child is 8');
   assert(branch3.children[2].value === 9, 'middle2 branch3 child is 9');
   assert(branch3.children[3].value === 10, 'right branch3 child is 10');
+
+  const iterator = tree[Symbol.iterator]()
+  assert(iterator.next().value === 1, 'iterator.next().value is 1')
+  assert(iterator.next().value === 2, 'iterator.next().value is 2')
+  assert(iterator.next().value === 3, 'iterator.next().value is 3')
+  assert(iterator.next().value === 4, 'iterator.next().value is 4')
+  assert(iterator.next().value === 5, 'iterator.next().value is 5')
+  assert(iterator.next().value === 6, 'iterator.next().value is 6')
+  assert(iterator.next().value === 7, 'iterator.next().value is 7')
+  assert(iterator.next().value === 8, 'iterator.next().value is 8')
+  assert(iterator.next().value === 9, 'iterator.next().value is 9')
+  assert(iterator.next().value === 10, 'iterator.next().value is 10')
+  assert(iterator.next().done === true, 'iterator.next().done is true')
 }
 
 
