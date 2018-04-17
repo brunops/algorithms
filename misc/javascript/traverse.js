@@ -24,6 +24,39 @@ var bfs = function (root, callback) {
   }
 };
 
+
+const dfspost = (root, cb) => {
+  const queue = [ root ]
+
+  while (queue.length) {
+    const curr = queue.pop()
+
+    if (cb) {
+      cb(curr)
+    }
+
+    for (let i = 0; i < curr.children.length; ++i) {
+      queue.push(curr.children[i])
+    }
+  }
+}
+
+const dfspre = (root, cb) => {
+  const queue = [ root ]
+
+  while (queue.length) {
+    const curr = queue.pop()
+
+    if (cb) {
+      cb(curr)
+    }
+
+    for (let i = curr.children.length - 1; i >= 0; --i) {
+      queue.push(curr.children[i])
+    }
+  }
+}
+
 exports.bfs = bfs;
 
 if (require.main === module) {
@@ -58,6 +91,21 @@ if (require.main === module) {
   bfs(tree, function (node) {
     result.push(node.value);
   });
+
+  var bfsRecur = require('./dom-traverse').bfsRecur
+
+  var result2 = []
+  bfsRecur(tree, function (node) {
+    result2.push(node.value);
+  });
+
+  console.log('result', result)
+  console.log('result2', result2)
+
+  console.log('pre')
+  dfspre(tree, node => console.log(node.value))
+  console.log('post')
+  dfspost(tree, node => console.log(node.value))
 
   assert(result, expectedResult, '#bfs returns [1..10]');
 }
