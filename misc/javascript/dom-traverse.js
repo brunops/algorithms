@@ -70,8 +70,23 @@ var dfsRecur = function (root, callback) {
   }
 };
 
+var bfsRecur = (root, cb, state) => {
+  state = state || []
+
+  if (typeof root === 'undefined') {
+    return
+  }
+
+  cb(root)
+
+  state = state.concat([].slice.apply(root.children))
+
+  return bfsRecur(state.shift(), cb, state)
+}
+
 module.exports = {
   bfs: bfs,
+  bfsRecur: bfsRecur,
   dfs: dfs,
   dfsRecur: dfsRecur
 };
