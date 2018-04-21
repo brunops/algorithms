@@ -24,35 +24,34 @@ var bfs = function (root, callback) {
   }
 };
 
-
 const dfspost = (root, cb) => {
-  const queue = [ root ]
+  const stack = [ root ]
 
-  while (queue.length) {
-    const curr = queue.pop()
+  while (stack.length) {
+    const curr = stack.pop()
 
     if (cb) {
       cb(curr)
     }
 
     for (let i = 0; i < curr.children.length; ++i) {
-      queue.push(curr.children[i])
+      stack.push(curr.children[i])
     }
   }
 }
 
 const dfspre = (root, cb) => {
-  const queue = [ root ]
+  const stack = [ root ]
 
-  while (queue.length) {
-    const curr = queue.pop()
+  while (stack.length) {
+    const curr = stack.pop()
 
     if (cb) {
       cb(curr)
     }
 
     for (let i = curr.children.length - 1; i >= 0; --i) {
-      queue.push(curr.children[i])
+      stack.push(curr.children[i])
     }
   }
 }
